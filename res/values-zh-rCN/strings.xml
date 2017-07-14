@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">"工厂测试"</string>
+    <string name="btn_spk_test">"喇叭测试"</string>
+    <string name="btn_hp_test">"耳机测试"</string>
+    <string name="btn_bkl_test">"背光测试"</string>
+    <string name="btn_led_test">"指示灯测试"</string>
+    <string name="btn_save_report">"保存测试报告"</string>
+    <string name="btn_exit">"退出测试"</string>
+    <string name="txt_key_test">"按键测试："</string>
+    <string name="txt_key_home">"HOME"</string>
+    <string name="txt_key_power">"POWER"</string>
+    <string name="txt_key_voldec">"VOL-"</string>
+    <string name="txt_key_volinc">"VOL+"</string>
+    <string name="txt_gps_test">"GPS 测试"</string>
+    <string name="txt_wifi_test">"WiFI"</string>
+    <string name="txt_bt_test">"蓝牙"</string>
+
+    <string name="device_test">"设备测试"</string>
+    <string name="extsd_test">"extsd  :"</string>
+    <string name="usbotg_test">"usbotg :"</string>
+    <string name="uhost_test">"uhost  :"</string>
+    <string name="ephdet_test">"hpdet  :"</string>
+    <string name="gsensor_test">"gsensor:"</string>
+    <string name="battery_test">"battery:"</string>
+    <string name="uuid_test">"uuid   :"</string>
+    <string name="ddr_test">"ddr    :"</string>
+    <string name="flash_test">"flash  :"</string>
+
+    <string name="test_pass">"pass"</string>
+    <string name="extsd_insert">"请插入 sd 卡"</string>
+    <string name="extsd_eject">"请拔出 sd 卡"</string>
+    <string name="otg_insert">"请插入 usb 线"</string>
+    <string name="otg_eject">"请拔出 usb 线"</string>
+    <string name="uhost_insert">"请插入 u 盘或鼠标"</string>
+    <string name="uhost_eject">"请拔出 u 盘或鼠标"</string>
+    <string name="eph_insert">"请插入耳机"</string>
+    <string name="eph_eject">"请拔出耳机"</string>
+
+    <string name="test_standard">"测试标准"</string>
+    <string name="standard1">"gps 标准：两颗 45dB，两颗 42dB"</string>
+    <string name="standard2">"wifi标准：信号响度 >= "</string>
+    <string name="standard3">"bt  标准：信号响度 >= "</string>
+
+    <string name="spk_test_title">"请确认喇叭是否有声音"</string>
+    <string name="eph_test_title">"请确认耳机是否有声音（注意左右声道）"</string>
+    <string name="bkl_test_title">"请确认屏幕背光亮度是否正常"</string>
+    <string name="bkl_test_max">"设为最亮"</string>
+    <string name="bkl_test_min">"设为最暗"</string>
+    <string name="led_test_title">"请检查充电指示灯颜色"</string>
+    <string name="led_test_red">"红灯"</string>
+    <string name="led_test_green">"绿灯"</string>
+    <string name="led_test_orange">"橙灯"</string>
+
+    <string name="save_report_done">"保存测试报告成功！"</string>
+</resources>
+

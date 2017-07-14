@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">"FactoryTest"</string>
+    <string name="btn_spk_test">"speaker test"</string>
+    <string name="btn_hp_test">"earphone test"</string>
+    <string name="btn_bkl_test">"backlight test"</string>
+    <string name="btn_led_test">"led test"</string>
+    <string name="btn_save_report">"save report"</string>
+    <string name="btn_exit">"exit"</string>
+    <string name="txt_key_test">"button test:"</string>
+    <string name="txt_key_home">"HOME"</string>
+    <string name="txt_key_power">"POWER"</string>
+    <string name="txt_key_voldec">"VOL-"</string>
+    <string name="txt_key_volinc">"VOL+"</string>
+    <string name="txt_gps_test">"GPS test"</string>
+    <string name="txt_wifi_test">"WiFI"</string>
+    <string name="txt_bt_test">"BT"</string>
+
+    <string name="device_test">"Device test"</string>
+    <string name="extsd_test">"extsd  :"</string>
+    <string name="usbotg_test">"usbotg :"</string>
+    <string name="uhost_test">"uhost  :"</string>
+    <string name="ephdet_test">"hpdet  :"</string>
+    <string name="gsensor_test">"gsensor:"</string>
+    <string name="battery_test">"battery:"</string>
+    <string name="uuid_test">"uuid   :"</string>
+    <string name="ddr_test">"ddr    :"</string>
+    <string name="flash_test">"flash  :"</string>
+
+    <string name="test_pass">"pass"</string>
+    <string name="extsd_insert">"please insert sdcard"</string>
+    <string name="extsd_eject">"please eject sdcard"</string>
+    <string name="otg_insert">"please insert usb cable"</string>
+    <string name="otg_eject">"please eject usb cable"</string>
+    <string name="uhost_insert">"insert udisk or mouse"</string>
+    <string name="uhost_eject">"eject udisk or mouse"</string>
+    <string name="eph_insert">"please insert earphone"</string>
+    <string name="eph_eject">"please eject earphone"</string>
+
+    <string name="test_standard">"Test standard"</string>
+    <string name="standard1">"gps : two 45dB，two 42dB"</string>
+    <string name="standard2">"wifi: signal level >= "</string>
+    <string name="standard3">"bt  : signal level >= "</string>
+    <string name="version">"factorytest for tnd540 v1.0.2"</string>
+
+    <string name="spk_test_title">"please check speaker sound"</string>
+    <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
+    <string name="bkl_test_title">"please check lcd backlight brightness"</string>
+    <string name="bkl_test_max">"set to max"</string>
+    <string name="bkl_test_min">"set to min"</string>
+    <string name="led_test_title">"please check the charge led color"</string>
+    <string name="led_test_red">"red"</string>
+    <string name="led_test_green">"green"</string>
+    <string name="led_test_orange">"orange"</string>
+
+    <string name="save_report_done">"save test report successed !"</string>
+</resources>
+

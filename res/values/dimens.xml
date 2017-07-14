@@ -1,0 +1,6 @@
+<resources>
+
+    <dimen name="txt_text_size">22dp</dimen>
+    <dimen name="btn_text_size">25dp</dimen>
+
+</resources>
