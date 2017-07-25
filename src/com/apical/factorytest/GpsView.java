@@ -56,7 +56,7 @@ public class GpsView extends View {
         String  str = "GPS test\r\n"
                     + "--------\r\n";
         str += "highest five satellite snr:";
-        for (int i=0; i<mSnrList.size() && i<5; i++) {
+        for (int i=0; i<mSnrList.size(); i++) {
             str += " " + mSnrList.get(i);
         }
         str += "\r\n";
@@ -158,7 +158,7 @@ public class GpsView extends View {
         String t[] = { "|", "/", "-", "\\" };
         mProgress++; mProgress %= 4;
         String title = mContext.getString(R.string.txt_gps_test) + " " + t[mProgress];
-        for (int i=0; i<mSnrList.size() && i<5; i++) {
+        for (int i=0; i<mSnrList.size(); i++) {
             title += " " + mSnrList.get(i);
         }
         if (mCurMax == 0) {

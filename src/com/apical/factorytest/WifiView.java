@@ -19,6 +19,7 @@ public class WifiView extends View {
     private WifiManager mWifiManager;
     private WifiInfo    mWifiInfo;
     private String      mWifiMacAddr;
+    private String      mCurMaxName ;
     private int         mCurMaxLevel;
     private int         mScanProgress;
 
@@ -33,6 +34,7 @@ public class WifiView extends View {
             mWifiInfo    = mWifiManager.getConnectionInfo();
             mWifiMacAddr = mWifiInfo.getMacAddress();
         }
+        mCurMaxName  = "";
         mCurMaxLevel = Integer.MIN_VALUE;
     }
 
@@ -51,7 +53,7 @@ public class WifiView extends View {
         String  str = "WiFi test\r\n"
                     + "---------\r\n";
         str += "mac: " + mWifiMacAddr + "\r\n";
-        str += "highest signal level: " + mCurMaxLevel + "dBm\r\n";
+        str += "highest signal level: " + (mCurMaxLevel == Integer.MIN_VALUE ? "no signal" : String.format("%ddBm", mCurMaxLevel)) + " " + mCurMaxName + "\r\n";
         str += "test result: " + (mCurMaxLevel >= TEST_PASS_STD ? "PASS" : "NG");
         str += "\r\n\r\n";
         return str;
@@ -96,13 +98,15 @@ public class WifiView extends View {
         int y = 16;
         paint.setColor(Color.rgb(255, 255, 0));
         for (ScanResult sr : aplist) {
-            if (mCurMaxLevel < sr.level) {
+            String name = sr.SSID;
+            if (mCurMaxLevel < sr.level && (name != null) && name.toLowerCase().startsWith("rm-wifi")) {
+                mCurMaxName  = sr.SSID ;
                 mCurMaxLevel = sr.level;
             }
 
             x  = 16;
             y += 20;
-            String apstr = String.format("%3ddBm - %s\n", sr.level, sr.SSID);
+            String apstr = String.format("%3ddBm - %s\n", sr.level, name);
             canvas.drawText(apstr, x, y, paint);
         }
 

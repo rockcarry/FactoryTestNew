@@ -27,6 +27,8 @@
     <string name="uuid_test">"uuid   :"</string>
     <string name="ddr_test">"ddr    :"</string>
     <string name="flash_test">"flash  :"</string>
+    <string name="wifimac_test">"wifimac:"</string>
+    <string name="btmac_test">"btmac  :"</string>
 
     <string name="test_pass">"pass"</string>
     <string name="extsd_insert">"please insert sdcard"</string>
@@ -42,7 +44,7 @@
     <string name="standard1">"gps : two 45dB，two 42dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for tnd540 v1.0.2"</string>
+    <string name="version">"factorytest for tnd540 v1.0.3"</string>
 
     <string name="spk_test_title">"please check speaker sound"</string>
     <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
@@ -55,5 +57,8 @@
     <string name="led_test_orange">"orange"</string>
 
     <string name="save_report_done">"save test report successed !"</string>
+
+    <string name="radio_pass">"pass"</string>
+    <string name="radio_ng">"ng"</string>
 </resources>
 

@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.util.AttributeSet;
 
@@ -21,6 +23,7 @@ public class BtView extends View {
     private Context               mContext;
     private BluetoothAdapter      mBtAdapter;
     private String                mBtMacAddr;
+    private String                mCurMaxName ;
     private int                   mCurMaxLevel;
     private int                   mScanProgress;
     private boolean               mScanFinish;
@@ -33,13 +36,14 @@ public class BtView extends View {
         mContext     = context;
         mBtDevList   = new ArrayList();
         mBtLevelList = new ArrayList();
+        mCurMaxName  = "";
         mCurMaxLevel = java.lang.Integer.MIN_VALUE;
         mBtAdapter   = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter != null) {
             mScanFinish = false;
             mBtAdapter.enable();
-            mBtAdapter.startDiscovery();
-            mBtMacAddr = mBtAdapter.getAddress();
+            mHandler.sendEmptyMessage(MSG_CHECK_ENABLED);
+
         }
 
         IntentFilter filter = new IntentFilter();
@@ -76,7 +80,7 @@ public class BtView extends View {
         String  str = "Bluetooth test\r\n"
                     + "--------------\r\n";
         str += "mac: " + mBtMacAddr + "\r\n";
-        str += "highest signal level: " + mCurMaxLevel + "dBm\r\n";
+        str += "highest signal level: " + (mCurMaxLevel == Integer.MIN_VALUE ? "no signal" : String.format("%ddBm", mCurMaxLevel)) + " " + mCurMaxName + "\r\n";
         str += "test result: " + (mCurMaxLevel >= TEST_PASS_STD ? "PASS" : "NG");
         str += "\r\n\r\n";
         return str;
@@ -118,13 +122,15 @@ public class BtView extends View {
         int y = 16;
         paint.setColor(Color.rgb(255, 255, 0));
         for (int i=0; i<mBtDevList.size(); i++) {
-            if (mCurMaxLevel < mBtLevelList.get(i)) {
+            String name = mBtDevList.get(i).getName();
+            if (mCurMaxLevel < mBtLevelList.get(i) && (name != null) && name.toLowerCase().startsWith("rm-bt")) {
+                mCurMaxName = mBtDevList.get(i).getName();
                 mCurMaxLevel = mBtLevelList.get(i);
             }
 
             x  = 16;
             y += 20;
-            String devstr = String.format("%3ddBm - %s\n", mBtLevelList.get(i), mBtDevList.get(i).getName());
+            String devstr = String.format("%3ddBm - %s\n", mBtLevelList.get(i), name);
             canvas.drawText(devstr, x, y, paint);
         }
 
@@ -150,6 +156,24 @@ public class BtView extends View {
                 mBtLevelList.add(level );
             } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
                 mScanFinish = true;
+            }
+        }
+    };
+
+    private static final int MSG_CHECK_ENABLED = 1;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case MSG_CHECK_ENABLED: {
+                    if (mBtAdapter.isEnabled()) {
+                        mBtAdapter.startDiscovery();
+                        mBtMacAddr = mBtAdapter.getAddress();
+                    } else {
+                        mHandler.sendEmptyMessageDelayed(MSG_CHECK_ENABLED, 200);
+                    }
+                }
+                break;
             }
         }
     };

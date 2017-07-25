@@ -40,8 +40,8 @@
 
     <string name="test_standard">"测试标准"</string>
     <string name="standard1">"gps 标准：两颗 45dB，两颗 42dB"</string>
-    <string name="standard2">"wifi标准：信号响度 >= "</string>
-    <string name="standard3">"bt  标准：信号响度 >= "</string>
+    <string name="standard2">"wifi标准：信号强度 >= "</string>
+    <string name="standard3">"bt  标准：信号强度 >= "</string>
 
     <string name="spk_test_title">"请确认喇叭是否有声音"</string>
     <string name="eph_test_title">"请确认耳机是否有声音（注意左右声道）"</string>

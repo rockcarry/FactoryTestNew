@@ -1,5 +1,6 @@
 package com.apical.factorytest;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
@@ -245,13 +247,35 @@ public class DeviceView extends View {
         }
         canvas.drawText(flashtest, 2, 25 + 25 * 7, paint);
 
+        String wifimac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress().toLowerCase();
+        String btmac   = BluetoothAdapter.getDefaultAdapter().getAddress().toLowerCase();
+        boolean wifimacpass = wifimac.startsWith("90:f4:c1:1a");
+        boolean btmacpass   = wifimac.startsWith("90:f4:c1:1a");
+        String wifimactest = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
+        if (wifimacpass) {
+            paint.setColor(Color.rgb(0, 255, 0));
+        } else {
+            paint.setColor(Color.rgb(255, 0, 0));
+            result = false;
+        }
+        canvas.drawText(wifimactest, 2, 25 + 25 * 8, paint);
+
+        String btmactest = mContext.getString(R.string.btmac_test) + " " + (btmacpass ? "PASS  " : "NG   ");
+        if (btmacpass) {
+            paint.setColor(Color.rgb(0, 255, 0));
+        } else {
+            paint.setColor(Color.rgb(255, 0, 0));
+            result = false;
+        }
+        canvas.drawText(btmactest, 2, 25 + 25 * 9, paint);
+
         paint.setColor(Color.rgb(255, 255, 0));
         paint.setTextSize(16);
-        canvas.drawText(mContext.getString(R.string.test_standard), 2, 25 + 25 * 10, paint);
+        canvas.drawText(mContext.getString(R.string.test_standard), 2, 25 + 25 * 11, paint);
         paint.setTextSize(15);
-        canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 11, paint);
-        canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 12, paint);
-        canvas.drawText(mContext.getString(R.string.standard3) + BtView  .TEST_PASS_STD, 2, 25 + 25 * 13, paint);
+        canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 12, paint);
+        canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 13, paint);
+        canvas.drawText(mContext.getString(R.string.standard3) + BtView  .TEST_PASS_STD, 2, 25 + 25 * 14, paint);
         canvas.drawText(mContext.getString(R.string.version), 2, 25 + 25 * 15, paint);
 
         if (result) setBackgroundColor(0x3300ff00);

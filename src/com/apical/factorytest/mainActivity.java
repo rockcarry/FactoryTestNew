@@ -53,6 +53,7 @@ public class mainActivity extends Activity {
     private int          mResultPower;
     private int          mResultVolDec;
     private int          mResultVolInc;
+    private boolean      mKeyPass;
     private boolean      mSpkPass;
     private boolean      mEphPass;
     private boolean      mBklPass;
@@ -62,8 +63,13 @@ public class mainActivity extends Activity {
 
     @Override
     public String toString() {
-        boolean pass = false;
-        String str = "Other test (need subjective judgment)\r\n"
+        String str = "Button test\r\n"
+                   + "-----------\r\n"
+                   + "home : " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultHome   + "\r\n"
+                   + "power: " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultPower  + "\r\n"
+                   + "vol- : " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultVolDec + "\r\n"
+                   + "vol+ : " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultVolInc + "\r\n\r\n"
+                   + "Other test (need subjective judgment)\r\n"
                    + "-------------------------------------\r\n";
         str += "speaker test  : " + (mSpkPass ? "PASS" : "NG") + "\r\n";
         str += "earphone test : " + (mEphPass ? "PASS" : "NG") + "\r\n";
@@ -132,7 +138,7 @@ public class mainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        hideSystemUI();
+        hideSystemUI(true);
 
         Settings.System.putInt(getContentResolver(), Settings.System.SHOW_TOUCHES    , 1);
         Settings.System.putInt(getContentResolver(), Settings.System.POINTER_LOCATION, 1);
@@ -151,6 +157,8 @@ public class mainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        hideSystemUI(false);
 
         Settings.System.putInt(getContentResolver(), Settings.System.SHOW_TOUCHES    , 0);
         Settings.System.putInt(getContentResolver(), Settings.System.POINTER_LOCATION, 0);
@@ -173,24 +181,33 @@ public class mainActivity extends Activity {
         mPlayer.seekTo(20000);
         mPlayer.start();
 
+        View view = getLayoutInflater().inflate(R.layout.dialog1, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.spk_test_title);
-        final String[] items = {"ng", "pass"};
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                case 0: mSpkTest.setBackgroundColor(Color.RED  ); mSpkTest.setTextColor(Color.YELLOW); mSpkPass = false; break;
-                case 1: mSpkTest.setBackgroundColor(Color.GREEN); mSpkTest.setTextColor(Color.BLACK ); mSpkPass = true ; break;
-                }
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mSpkTest.setBackgroundColor(Color.RED);
+                mSpkTest.setTextColor(Color.YELLOW);
+                mSpkPass = false;
                 mPlayer.pause();
-                dialogInterface.dismiss();
-                hideSystemUI();
+                dialog.dismiss();
             }
         });
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mSpkTest.setBackgroundColor(Color.GREEN);
+                mSpkTest.setTextColor(Color.BLACK);
+                mSpkPass = true;
+                mPlayer.pause();
+                dialog.dismiss();
+            }
+        });
     }
 
     private void doEphTest() {
@@ -202,104 +219,138 @@ public class mainActivity extends Activity {
         mPlayer.seekTo(20000);
         mPlayer.start();
 
+        View view = getLayoutInflater().inflate(R.layout.dialog1, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.eph_test_title);
-        final String[] items = {"ng", "pass"};
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                case 0: mEphTest.setBackgroundColor(Color.RED  ); mEphTest.setTextColor(Color.YELLOW); mEphPass = false; break;
-                case 1: mEphTest.setBackgroundColor(Color.GREEN); mEphTest.setTextColor(Color.BLACK ); mEphPass = true ; break;
-                }
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mEphTest.setBackgroundColor(Color.RED);
+                mEphTest.setTextColor(Color.YELLOW);
+                mEphPass = false;
                 mPlayer.pause();
-                dialogInterface.dismiss();
-                hideSystemUI();
+                dialog.dismiss();
             }
         });
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mEphTest.setBackgroundColor(Color.GREEN);
+                mEphTest.setTextColor(Color.BLACK);
+                mEphPass = true;
+                mPlayer.pause();
+                dialog.dismiss();
+            }
+        });
     }
 
     private void doBklTest() {
+        View view = getLayoutInflater().inflate(R.layout.dialog2, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
-        builder.setTitle(R.string.bkl_test_title);
-        final String[] items = {getString(R.string.bkl_test_max), getString(R.string.bkl_test_min), "ng", "pass"};
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        builder.setTitle(R.string.bkl_test_max);
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_max).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
                 mHandler.removeMessages(MSG_BLK_MAX);
                 mHandler.removeMessages(MSG_BLK_MIN);
-                switch (i) {
-                case 0:
-                    setScreenBrightness(0);
-                    mHandler.sendEmptyMessage(MSG_BLK_MAX);
-                    break;
-                case 1:
-                    setScreenBrightness(255);
-                    mHandler.sendEmptyMessage(MSG_BLK_MIN);
-                    break;
-                case 2:
-                    setScreenBrightness(127);
-                    mBklTest.setBackgroundColor(Color.RED);
-                    mBklTest.setTextColor(Color.YELLOW);
-                    dialogInterface.dismiss();
-                    mBklPass = false;
-                    break;
-                case 3:
-                    setScreenBrightness(127);
-                    mBklTest.setBackgroundColor(Color.GREEN);
-                    mBklTest.setTextColor(Color.BLACK);
-                    dialogInterface.dismiss();
-                    mBklPass = true;
-                    break;
-                }
-                hideSystemUI();
+                setScreenBrightness(0);
+                mHandler.sendEmptyMessage(MSG_BLK_MAX);
             }
         });
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.findViewById(R.id.radio_min).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mHandler.removeMessages(MSG_BLK_MAX);
+                mHandler.removeMessages(MSG_BLK_MIN);
+                setScreenBrightness(255);
+                mHandler.sendEmptyMessage(MSG_BLK_MIN);
+            }
+        });
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mHandler.removeMessages(MSG_BLK_MAX);
+                mHandler.removeMessages(MSG_BLK_MIN);
+                setScreenBrightness(127);
+                mBklTest.setBackgroundColor(Color.RED);
+                mBklTest.setTextColor(Color.YELLOW);
+                mBklPass = false;
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mHandler.removeMessages(MSG_BLK_MAX);
+                mHandler.removeMessages(MSG_BLK_MIN);
+                setScreenBrightness(127);
+                mBklTest.setBackgroundColor(Color.GREEN);
+                mBklTest.setTextColor(Color.BLACK);
+                mBklPass = true;
+                dialog.dismiss();
+            }
+        });
     }
 
     private void doLedTest() {
         writeFile("/dev/apical", "led_test 1");
 
+        View view = getLayoutInflater().inflate(R.layout.dialog3, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.led_test_title);
-        final String[] items = {getString(R.string.led_test_red), getString(R.string.led_test_green), getString(R.string.led_test_orange), "ng", "pass"};
-        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                case 0: writeFile("/dev/apical", "led_color 100"); break;
-                case 1: writeFile("/dev/apical", "led_color 010"); break;
-                case 2: writeFile("/dev/apical", "led_color 001"); break;
-                case 3:
-                    mLedTest.setBackgroundColor(Color.RED);
-                    mLedTest.setTextColor(Color.YELLOW);
-                    dialogInterface.dismiss();
-                    writeFile("/dev/apical", "led_test 0");
-                    mLedPass = false;
-                    break;
-                case 4:
-                    mLedTest.setBackgroundColor(Color.GREEN);
-                    mLedTest.setTextColor(Color.BLACK);
-                    dialogInterface.dismiss();
-                    writeFile("/dev/apical", "led_test 0");
-                    mLedPass = true;
-                    break;
-                }
-                hideSystemUI();
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_red).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                writeFile("/dev/apical", "led_color 100");
             }
         });
-        builder.setCancelable(false);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.findViewById(R.id.radio_green).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                writeFile("/dev/apical", "led_color 010");
+            }
+        });
+        dialog.findViewById(R.id.radio_orange).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                writeFile("/dev/apical", "led_color 001");
+            }
+        });
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mLedTest.setBackgroundColor(Color.RED);
+                mLedTest.setTextColor(Color.YELLOW);
+                dialog.dismiss();
+                writeFile("/dev/apical", "led_test 0");
+                mLedPass = false;
+            }
+        });
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mLedTest.setBackgroundColor(Color.GREEN);
+                mLedTest.setTextColor(Color.BLACK);
+                dialog.dismiss();
+                writeFile("/dev/apical", "led_test 0");
+                mLedPass = true;
+            }
+        });
     }
 
-    private void doSaveReport() {
+    private String genTestReport() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String title = "+------------------------------+\r\n"
@@ -308,8 +359,13 @@ public class mainActivity extends Activity {
                      + "report generate time: " + df.format(date) + "\r\n"
 //                   + "device serial number: " + Build.SERIAL + "\r\n"
                      + "\r\n";
+        String report = title + mGpsView + mWifiView + mBtView + mDevView + this.toString() + "\r\n\r\n\r\n\r\n\r\n";
+        return report;
+    }
+
+    private void doSaveReport() {
         boolean ret1 = takeScreenShot("/sdcard/testreport.png");
-        boolean ret2 = writeFile("/sdcard/testreport.txt", title + mGpsView + mWifiView + mBtView + mDevView + this.toString() + "\r\n\r\n\r\n\r\n\r\n");
+        boolean ret2 = writeFile("/sdcard/testreport.txt", genTestReport());
         if (ret1 && ret2) {
             Toast.makeText(this, R.string.save_report_done, Toast.LENGTH_LONG).show();
         }
@@ -434,6 +490,7 @@ public class mainActivity extends Activity {
                     mGpsView .invalidate();
                     mWifiView.invalidate();
                     mBtView  .invalidate();
+                    mSaveReport.setEnabled(!genTestReport().contains("NG"));
                 }
                 break;
             case MSG_BLK_MAX: {
@@ -456,7 +513,8 @@ public class mainActivity extends Activity {
         }
     };
 
-    private void hideSystemUI() {
+    private void hideSystemUI(boolean b) {
+        /*
         getWindow().getDecorView().setSystemUiVisibility(
                   View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -464,6 +522,12 @@ public class mainActivity extends Activity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        */
+        if (b) {
+            sendBroadcast(new Intent("com.apical.systemui.strict.enable" ));
+        } else {
+            sendBroadcast(new Intent("com.apical.systemui.strict.disable"));
+        }
     }
 
     private int getScreenBrightness() {
@@ -507,8 +571,7 @@ public class mainActivity extends Activity {
         view.buildDrawingCache();
 
         Bitmap bitmap = view.getDrawingCache();
-        if (bitmap != null)
-        {
+        if (bitmap != null) {
             try {
                 FileOutputStream out = new FileOutputStream(path);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
