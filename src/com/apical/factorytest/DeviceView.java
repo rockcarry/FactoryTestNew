@@ -114,7 +114,7 @@ public class DeviceView extends View {
         str += "ddr     : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getMemorySize() / 1024 / 1024f) + " MB\r\n";
 
         pass = getFlashSize() > 8 * 1024 * 1024 * 1024;
-        str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\n\n";
+        str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\r\n";
         return str;
     }
 
@@ -247,11 +247,15 @@ public class DeviceView extends View {
         }
         canvas.drawText(flashtest, 2, 25 + 25 * 7, paint);
 
-        String wifimac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress().toLowerCase();
-        String btmac   = BluetoothAdapter.getDefaultAdapter().getAddress().toLowerCase();
+        String wifimac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
+        String btmac   = BluetoothAdapter.getDefaultAdapter().getAddress();
+        if (wifimac == null) wifimac = "";
+        if (btmac   == null) btmac   = "";
+        wifimac = wifimac.toLowerCase();
+        btmac   = btmac  .toLowerCase();
         boolean wifimacpass = wifimac.startsWith("90:f4:c1:1a");
         boolean btmacpass   = wifimac.startsWith("90:f4:c1:1a");
-        String wifimactest = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
+        String wifimactest  = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
         if (wifimacpass) {
             paint.setColor(Color.rgb(0, 255, 0));
         } else {
