@@ -156,6 +156,7 @@ public class BtView extends View {
                 mBtLevelList.add(level );
             } else if (action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
                 mScanFinish = true;
+                rescan(); // auto rescan
             }
         }
     };

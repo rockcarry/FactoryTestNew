@@ -356,7 +356,7 @@ public class mainActivity extends Activity {
         String title = "+------------------------------+\r\n"
                      + " test report for tnd540 device  \r\n"
                      + "+------------------------------+\r\n"
-                     + "report generate time: " + df.format(date) + "\r\n"
+//                   + "report generate time: " + df.format(date) + "\r\n"
 //                   + "device serial number: " + Build.SERIAL + "\r\n"
                      + "\r\n";
         String report = title + mGpsView + mWifiView + mBtView + mDevView + this.toString() + "\r\n\r\n\r\n\r\n\r\n";

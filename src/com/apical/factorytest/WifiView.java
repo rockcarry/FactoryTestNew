@@ -8,6 +8,8 @@ import android.graphics.Typeface;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.util.AttributeSet;
 
@@ -17,7 +19,6 @@ public class WifiView extends View {
     public final static int TEST_PASS_STD = -65;
     private Context     mContext;
     private WifiManager mWifiManager;
-    private WifiInfo    mWifiInfo;
     private String      mWifiMacAddr;
     private String      mCurMaxName ;
     private int         mCurMaxLevel;
@@ -31,8 +32,7 @@ public class WifiView extends View {
         if (mWifiManager != null) {
             mWifiManager.setWifiEnabled(true);
             mWifiManager.startScan();
-            mWifiInfo    = mWifiManager.getConnectionInfo();
-            mWifiMacAddr = mWifiInfo.getMacAddress();
+            mHandler.sendEmptyMessage(MSG_CHECK_ENABLED);
         }
         mCurMaxName  = "";
         mCurMaxLevel = Integer.MIN_VALUE;
@@ -120,4 +120,21 @@ public class WifiView extends View {
         }
         setBackgroundColor(bgcolor);
     }
+
+    private static final int MSG_CHECK_ENABLED = 1;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case MSG_CHECK_ENABLED: {
+                    WifiInfo info = mWifiManager.getConnectionInfo();
+                    mWifiMacAddr  = info.getMacAddress();
+                    if (mWifiMacAddr == null) {
+                        mHandler.sendEmptyMessageDelayed(MSG_CHECK_ENABLED, 200);
+                    }
+                }
+                break;
+            }
+        }
+    };
 };

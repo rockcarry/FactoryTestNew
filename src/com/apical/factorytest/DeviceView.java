@@ -41,6 +41,8 @@ public class DeviceView extends View {
     private int            mEarphoneDet;
     private String         mBatteryStatus;
     private boolean        mBatteryResult;
+    private String         mWiFiMac;
+    private String         mBtMac;
     private float          mX, mY, mZ;
 
     public DeviceView(Context context, AttributeSet attrs) {
@@ -115,6 +117,13 @@ public class DeviceView extends View {
 
         pass = getFlashSize() > 8 * 1024 * 1024 * 1024;
         str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\r\n";
+
+        pass = mWiFiMac.startsWith("90:f4:c1:1a");
+        str += "wifimac : " + (pass ? "PASS  " : "NG    ") + "\r\n";
+
+        pass = mBtMac.startsWith("90:f4:c1:1a");
+        str += "btmac   : " + (pass ? "PASS  " : "NG    ") + "\r\n";
+
         return str;
     }
 
@@ -247,14 +256,14 @@ public class DeviceView extends View {
         }
         canvas.drawText(flashtest, 2, 25 + 25 * 7, paint);
 
-        String wifimac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
-        String btmac   = BluetoothAdapter.getDefaultAdapter().getAddress();
-        if (wifimac == null) wifimac = "";
-        if (btmac   == null) btmac   = "";
-        wifimac = wifimac.toLowerCase();
-        btmac   = btmac  .toLowerCase();
-        boolean wifimacpass = wifimac.startsWith("90:f4:c1:1a");
-        boolean btmacpass   = wifimac.startsWith("90:f4:c1:1a");
+        mWiFiMac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
+        mBtMac   = BluetoothAdapter.getDefaultAdapter().getAddress();
+        if (mWiFiMac == null) mWiFiMac = "";
+        if (mBtMac   == null) mBtMac   = "";
+        mWiFiMac = mWiFiMac.toLowerCase();
+        mBtMac   = mBtMac  .toLowerCase();
+        boolean wifimacpass = mWiFiMac.startsWith("90:f4:c1:1a");
+        boolean btmacpass   = mBtMac  .startsWith("90:f4:c1:1a");
         String wifimactest  = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
         if (wifimacpass) {
             paint.setColor(Color.rgb(0, 255, 0));
