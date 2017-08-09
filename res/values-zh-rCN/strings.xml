@@ -6,6 +6,7 @@
     <string name="btn_hp_test">"耳机测试"</string>
     <string name="btn_bkl_test">"背光测试"</string>
     <string name="btn_led_test">"指示灯测试"</string>
+    <string name="btn_save_gps">"保存 GPS 数据"</string>
     <string name="btn_save_report">"保存测试报告"</string>
     <string name="btn_exit">"退出测试"</string>
     <string name="txt_key_test">"按键测试："</string>
@@ -53,6 +54,7 @@
     <string name="led_test_green">"绿灯"</string>
     <string name="led_test_orange">"橙灯"</string>
 
+    <string name="save_gps_done">"保存 GPS 数据成功！"</string>
     <string name="save_report_done">"保存测试报告成功！"</string>
 </resources>
 

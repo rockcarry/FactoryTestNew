@@ -122,7 +122,7 @@ public class DeviceView extends View {
         str += "wifimac : " + (pass ? "PASS  " : "NG    ") + "\r\n";
 
         pass = mBtMac.startsWith("90:f4:c1:1a");
-        str += "btmac   : " + (pass ? "PASS  " : "NG    ") + "\r\n";
+        str += "btmac   : " + (pass ? "PASS  " : "NG    ") + "\r\n\r\n";
 
         return str;
     }

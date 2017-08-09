@@ -55,7 +55,7 @@ public class GpsView extends View {
         boolean pass = false;
         String  str = "GPS test\r\n"
                     + "--------\r\n";
-        str += "highest five satellite snr:";
+        str += "highest satellite snr:";
         for (int i=0; i<mSnrList.size(); i++) {
             str += " " + mSnrList.get(i);
         }

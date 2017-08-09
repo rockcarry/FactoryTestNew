@@ -18,7 +18,7 @@ import android.util.AttributeSet;
 import java.util.*;
 
 public class BtView extends View {
-    public final static int TEST_PASS_STD = -65;
+    public final static int TEST_PASS_STD = -75;
 
     private Context               mContext;
     private BluetoothAdapter      mBtAdapter;
@@ -43,7 +43,6 @@ public class BtView extends View {
             mScanFinish = false;
             mBtAdapter.enable();
             mHandler.sendEmptyMessage(MSG_CHECK_ENABLED);
-
         }
 
         IntentFilter filter = new IntentFilter();
@@ -105,7 +104,7 @@ public class BtView extends View {
         if (mCurMaxLevel == java.lang.Integer.MIN_VALUE) {
             paint.setColor(Color.rgb(255, 0, 0));
             title += " NG";
-        } else if ( mCurMaxLevel >= -65) {
+        } else if ( mCurMaxLevel >= TEST_PASS_STD) {
             paint.setColor(Color.rgb(0, 255, 0));
             title += " " + mCurMaxLevel;
         } else {

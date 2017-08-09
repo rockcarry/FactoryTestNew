@@ -6,6 +6,7 @@
     <string name="btn_hp_test">"earphone test"</string>
     <string name="btn_bkl_test">"backlight test"</string>
     <string name="btn_led_test">"led test"</string>
+    <string name="btn_save_gps">"save gps data"</string>
     <string name="btn_save_report">"save report"</string>
     <string name="btn_exit">"exit"</string>
     <string name="txt_key_test">"button test:"</string>
@@ -44,7 +45,7 @@
     <string name="standard1">"gps : two 45dB，two 42dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for tnd540 v1.0.3"</string>
+    <string name="version">"factorytest for tnd540 v1.0.5"</string>
 
     <string name="spk_test_title">"please check speaker sound"</string>
     <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
@@ -56,6 +57,7 @@
     <string name="led_test_green">"green"</string>
     <string name="led_test_orange">"orange"</string>
 
+    <string name="save_gps_done">"save gps data successed !"</string>
     <string name="save_report_done">"save test report successed !"</string>
 
     <string name="radio_pass">"pass"</string>

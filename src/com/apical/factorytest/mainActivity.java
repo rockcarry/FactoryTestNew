@@ -47,6 +47,7 @@ public class mainActivity extends Activity {
     private Button       mEphTest;
     private Button       mBklTest;
     private Button       mLedTest;
+    private Button       mSaveGps;
     private Button       mSaveReport;
     private Button       mBtnExit;
     private int          mResultHome;
@@ -95,6 +96,7 @@ public class mainActivity extends Activity {
         mEphTest   = (Button    )findViewById(R.id.btn_hp_test    );
         mBklTest   = (Button    )findViewById(R.id.btn_bkl_test   );
         mLedTest   = (Button    )findViewById(R.id.btn_led_test   );
+        mSaveGps   = (Button    )findViewById(R.id.btn_save_gps   );
         mSaveReport= (Button    )findViewById(R.id.btn_save_report);
         mBtnExit   = (Button    )findViewById(R.id.btn_exit       );
 
@@ -103,6 +105,7 @@ public class mainActivity extends Activity {
         mEphTest   .setOnClickListener(mOnClickListener);
         mBklTest   .setOnClickListener(mOnClickListener);
         mLedTest   .setOnClickListener(mOnClickListener);
+        mSaveGps   .setOnClickListener(mOnClickListener);
         mSaveReport.setOnClickListener(mOnClickListener);
         mBtnExit   .setOnClickListener(mOnClickListener);
 
@@ -363,10 +366,20 @@ public class mainActivity extends Activity {
         return report;
     }
 
+    private void doSaveGps() {
+        String gps = mGpsView.toString();
+        gps = gps.substring(0, gps.indexOf("test result:"));
+        boolean ret = writeFile("/sdcard/gpsreport.txt", gps);
+        if (ret) {
+            Toast.makeText(this, R.string.save_gps_done, Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void doSaveReport() {
-        boolean ret1 = takeScreenShot("/sdcard/testreport.png");
+//      boolean ret1 = takeScreenShot("/sdcard/testreport.png");
         boolean ret2 = writeFile("/sdcard/testreport.txt", genTestReport());
-        if (ret1 && ret2) {
+//      if (ret1 && ret2) {
+        if (ret2) {
             Toast.makeText(this, R.string.save_report_done, Toast.LENGTH_LONG).show();
         }
     }
@@ -389,6 +402,9 @@ public class mainActivity extends Activity {
                 break;
             case R.id.btn_led_test:
                 doLedTest();
+                break;
+            case R.id.btn_save_gps:
+                doSaveGps();
                 break;
             case R.id.btn_save_report:
                 doSaveReport();

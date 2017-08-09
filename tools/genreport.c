@@ -101,7 +101,7 @@ static int get_test_result(char *file,
     //++ read data by section and key
     // gps
     section = find_section(buf, "GPS test");
-    read_data(section, "highest five satellite snr", gps_cn);
+    read_data(section, "satellite snr", gps_cn);
     read_data(section, "test result", gps_res);
 
     // wifi

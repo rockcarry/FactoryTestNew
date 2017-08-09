@@ -83,7 +83,7 @@ public class WifiView extends View {
         if (mCurMaxLevel == java.lang.Integer.MIN_VALUE) {
             paint.setColor(Color.rgb(255, 0, 0));
             title += " NG";
-        } else if ( mCurMaxLevel >= -65) {
+        } else if ( mCurMaxLevel >= TEST_PASS_STD) {
             paint.setColor(Color.rgb(0, 255, 0));
             title += " " + mCurMaxLevel;
         } else {
