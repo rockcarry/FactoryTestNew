@@ -19,7 +19,9 @@ static void read_data(char *section, char *key, char *data)
     char *str = NULL;
     int   i;
     if (!section) return;
-    str = strstr(section, key) + strlen(key);
+    str = strstr(section, key);
+    if (!str) return;
+    else str += strlen(key);
     for (; *str && *str != '\r' && *str != '\n'; str++) {
         if (*str == ':') break;
     }
@@ -42,15 +44,15 @@ static int get_test_result(char *file,
                 char *home_res, char *power_res, char *volinc_res, char *voldec_res,
                 char *spk_res, char *ear_res, char *bkl_res, char *led_res)
 {
-    char *buf     = NULL;
-    int   len     = 0;
-    FILE *fp      = NULL;
-    char *section = NULL;
-    char  str0[256];
-    char  str1[64];
-    char  str2[64];
-    char  str3[64];
-    int   ret     = -1;
+    char *buf      = NULL;
+    int   len      = 0;
+    FILE *fp       = NULL;
+    char *section  = NULL;
+    char  str0[256]= "";
+    char  str1[64] = "";
+    char  str2[64] = "";
+    char  str3[64] = "";
+    int   ret      = -1;
 
     // set default value
     strcpy(gps_cn      , "unknown");
@@ -213,7 +215,8 @@ static void traverse_dir(char *path)
 
     while (1) {
         if (!(wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-            int len, ret;
+            int   len, ret;
+            char *str;
             strcpy(file, path);
             strcat(file, "\\");
             strcat(file, wfd.cFileName);
@@ -224,6 +227,8 @@ static void traverse_dir(char *path)
                 goto next;
             } else {
                 sn[len - 4] = '\0';
+                str = strstr(sn, "-");
+                if (str) strcpy(sn, str+1);
             }
 
             ret = get_test_result(file,
