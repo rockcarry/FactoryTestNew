@@ -143,42 +143,43 @@
 
         <Button
             android:id="@+id/btn_spk_test"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_spk_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_hp_test"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_hp_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_bkl_test"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_bkl_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_led_test"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_led_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_save_gps"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_save_gps"
-            android:textSize="@dimen/btn_text_size" />
+            android:textSize="@dimen/btn_text_size"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_save_report"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_save_report"
             android:textSize="@dimen/btn_text_size"
@@ -186,7 +187,7 @@
 
         <Button
             android:id="@+id/btn_exit"
-            android:layout_width="158dp"
+            android:layout_width="176dp"
             android:layout_height="78dp"
             android:text="@string/btn_exit"
             android:textSize="@dimen/btn_text_size" />

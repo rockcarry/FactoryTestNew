@@ -39,8 +39,8 @@
     <string name="eph_insert">"请插入耳机"</string>
     <string name="eph_eject">"请拔出耳机"</string>
 
-    <string name="test_standard">"测试标准"</string>
-    <string name="standard1">"gps 标准：两颗 45dB，两颗 42dB"</string>
+    <string name="test_standard">"测试标准（GPS 为模拟器标准）"</string>
+    <string name="standard1">"gps 标准：五颗 45dB，一颗 43dB"</string>
     <string name="standard2">"wifi标准：信号强度 >= "</string>
     <string name="standard3">"bt  标准：信号强度 >= "</string>
 

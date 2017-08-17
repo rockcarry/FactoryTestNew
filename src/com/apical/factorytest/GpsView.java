@@ -60,11 +60,13 @@ public class GpsView extends View {
             str += " " + mSnrList.get(i);
         }
         str += "\r\n";
-        if (  mSnrList.size() >= 4
+        if (  mSnrList.size() >= 6
            && mSnrList.get(0) >= 45
            && mSnrList.get(1) >= 45
-           && mSnrList.get(2) >= 42
-           && mSnrList.get(3) >= 42 ) {
+           && mSnrList.get(2) >= 45
+           && mSnrList.get(3) >= 45
+           && mSnrList.get(4) >= 45
+           && mSnrList.get(5) >= 43 ) {
             pass = true;
         }
         str += "test result: " + (pass ? "PASS" : "NG");
@@ -85,7 +87,7 @@ public class GpsView extends View {
         int cw = getMeasuredWidth ();
         int ch = getMeasuredHeight();
         int sw = cw / 16;
-        int sh = ch - 40;
+        int sh = ch - 62;
 
         paint.setColor(Color.rgb(128, 128, 0));
         canvas.drawLine(20, ch - 20, cw - 20, ch - 20, paint);
@@ -107,9 +109,9 @@ public class GpsView extends View {
                     if (mGpsFixed) {
                         if (snr < 10) {
                             paint.setColor(0xffff0000);
-                        } else if (snr < 20) {
+                        } else if (snr < 22) {
                             paint.setColor(0xffff8800);
-                        } else if (snr < 35) {
+                        } else if (snr < 38) {
                             paint.setColor(0xffffff00);
                         } else {
                             paint.setColor(0xff00ff00);
@@ -117,12 +119,12 @@ public class GpsView extends View {
                     } else {
                         paint.setColor(0xff777777);
                     }
-                    canvas.drawRect(20 + i * sw + 1, ch - 20 - 1 - snr * sh / 50, 20 + (i + 1) * sw - 1, ch - 20 - 1, paint);
+                    canvas.drawRect(20 + i * sw + 1, ch - 20 - 1 - snr * sh / 52, 20 + (i + 1) * sw - 1, ch - 20 - 1, paint);
                     String strprn = String.format("%02d", prn);
                     String strsnr = String.format("%d"  , snr);
-                    paint.setColor(Color.rgb(128, 128, 0));
+                    paint.setColor(Color.rgb(188, 188, 0));
                     canvas.drawText(strprn, 20 + i * sw + (sw - paint.measureText(strprn)) / 2, ch - 20 + 16, paint);
-                    canvas.drawText(strsnr, 20 + i * sw + (sw - paint.measureText(strsnr)) / 2, ch - 20 - 1 - snr * sh / 50 - 10, paint);
+                    canvas.drawText(strsnr, 20 + i * sw + (sw - paint.measureText(strsnr)) / 2, ch - 20 - 1 - snr * sh / 52 - 10, paint);
                     i++;
                     snrlist.add(snr);
                 }
@@ -137,7 +139,7 @@ public class GpsView extends View {
         };
         Collections.sort(snrlist, cmp);
         int max = 0;
-        for (int i=0; i<snrlist.size() && i<5; i++) {
+        for (int i=0; i<snrlist.size() && i<6; i++) {
             max += snrlist.get(i);
         }
         if (mCurMax < max) {
@@ -145,16 +147,25 @@ public class GpsView extends View {
             mSnrList = snrlist;
         }
 
-        boolean pass = false;
-        if (  mSnrList.size() >= 4
+        int pass = 0;
+        if (  mSnrList.size() >= 6
+           && mSnrList.get(0) >= 45
+           && mSnrList.get(1) >= 45
+           && mSnrList.get(2) >= 45
+           && mSnrList.get(3) >= 45
+           && mSnrList.get(4) >= 45
+           && mSnrList.get(5) >= 43) {
+             pass = 2;
+        } else if (
+              mSnrList.size() >= 4
            && mSnrList.get(0) >= 45
            && mSnrList.get(1) >= 45
            && mSnrList.get(2) >= 42
            && mSnrList.get(3) >= 42) {
-             pass = true;
+             pass = 1;
         }
 
-        // drae title
+        // draw title
         String t[] = { "|", "/", "-", "\\" };
         mProgress++; mProgress %= 4;
         String title = mContext.getString(R.string.txt_gps_test) + " " + t[mProgress];
@@ -164,7 +175,9 @@ public class GpsView extends View {
         if (mCurMax == 0) {
             paint.setColor(Color.rgb(255, 0, 0));
             title += " NG";
-        } else if (pass) {
+        } else if (pass == 1) {
+            paint.setColor(Color.rgb(255, 255, 0));
+        } else if (pass == 2) {
             paint.setColor(Color.rgb(0, 255, 0));
         } else {
             paint.setColor(Color.rgb(255, 255, 0));
@@ -174,7 +187,9 @@ public class GpsView extends View {
         int bgcolor;
         if (mCurMax == 0) {
             bgcolor = Color.argb(0x33, 0xff, 0, 0);
-        } else if (pass) {
+        } else if (pass == 1) {
+            bgcolor = Color.argb(0x55, 0x5f, 0x5f, 0xff);
+        } else if (pass == 2) {
             bgcolor = Color.argb(0x33, 0, 0xff, 0);
         } else {
             bgcolor = Color.argb(0x33, 0xff, 0xff, 0);

@@ -41,11 +41,11 @@
     <string name="eph_insert">"please insert earphone"</string>
     <string name="eph_eject">"please eject earphone"</string>
 
-    <string name="test_standard">"Test standard"</string>
-    <string name="standard1">"gps : two 45dB，two 42dB"</string>
+    <string name="test_standard">"Test standard (gps simulator)"</string>
+    <string name="standard1">"gps : five 45dB，one 43dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for tnd540 v1.0.5"</string>
+    <string name="version">"factorytest for tnd540 v1.0.6"</string>
 
     <string name="spk_test_title">"please check speaker sound"</string>
     <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
