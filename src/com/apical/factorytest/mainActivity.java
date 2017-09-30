@@ -54,7 +54,6 @@ public class mainActivity extends Activity {
     private int          mResultPower;
     private int          mResultVolDec;
     private int          mResultVolInc;
-    private boolean      mKeyPass;
     private boolean      mSpkPass;
     private boolean      mEphPass;
     private boolean      mBklPass;
