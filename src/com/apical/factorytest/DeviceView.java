@@ -116,10 +116,10 @@ public class DeviceView extends View {
         pass = getFlashSize() > 8 * 1024 * 1024 * 1024;
         str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\r\n";
 
-        pass = mWiFiMac.startsWith("90:f4:c1:1a");
+        pass = mWiFiMac.startsWith("90:f4:c1:1a") || mWiFiMac.startsWith("90:f4:c1:1b");
         str += "wifimac : " + (pass ? "PASS  " : "NG    ") + "\r\n";
 
-        pass = mBtMac.startsWith("90:f4:c1:1a");
+        pass = mBtMac.startsWith("90:f4:c1:1a") || mBtMac.startsWith("90:f4:c1:1b");
         str += "btmac   : " + (pass ? "PASS  " : "NG    ") + "\r\n\r\n";
 
         return str;
@@ -260,8 +260,8 @@ public class DeviceView extends View {
         if (mBtMac   == null) mBtMac   = "";
         mWiFiMac = mWiFiMac.toLowerCase();
         mBtMac   = mBtMac  .toLowerCase();
-        boolean wifimacpass = mWiFiMac.startsWith("90:f4:c1:1a");
-        boolean btmacpass   = mBtMac  .startsWith("90:f4:c1:1a");
+        boolean wifimacpass = mWiFiMac.startsWith("90:f4:c1:1a") || mWiFiMac.startsWith("90:f4:c1:1b");
+        boolean btmacpass   = mBtMac  .startsWith("90:f4:c1:1a") || mBtMac  .startsWith("90:f4:c1:1b");
         String wifimactest  = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
         if (wifimacpass) {
             paint.setColor(Color.rgb(0, 255, 0));
