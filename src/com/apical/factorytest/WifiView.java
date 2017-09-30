@@ -19,10 +19,12 @@ public class WifiView extends View {
     public final static int TEST_PASS_STD = -65;
     private Context     mContext;
     private WifiManager mWifiManager;
-    private String      mWifiMacAddr;
     private String      mCurMaxName ;
     private int         mCurMaxLevel;
     private int         mScanProgress;
+
+    private static String mWifiMacAddr;
+    public static String getMac() { return mWifiMacAddr; }
 
     public WifiView(Context context, AttributeSet attrs) {
         super(context, attrs);

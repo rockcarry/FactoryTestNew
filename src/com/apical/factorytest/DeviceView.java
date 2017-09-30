@@ -1,6 +1,5 @@
 package com.apical.factorytest;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.hardware.usb.UsbManager;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
@@ -256,8 +254,8 @@ public class DeviceView extends View {
         }
         canvas.drawText(flashtest, 2, 25 + 25 * 7, paint);
 
-        mWiFiMac = ((WifiManager)mContext.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
-        mBtMac   = BluetoothAdapter.getDefaultAdapter().getAddress();
+        mWiFiMac = WifiView.getMac();
+        mBtMac   = BtView  .getMac();
         if (mWiFiMac == null) mWiFiMac = "";
         if (mBtMac   == null) mBtMac   = "";
         mWiFiMac = mWiFiMac.toLowerCase();

@@ -22,13 +22,15 @@ public class BtView extends View {
 
     private Context               mContext;
     private BluetoothAdapter      mBtAdapter;
-    private String                mBtMacAddr;
-    private String                mCurMaxName ;
+    private String                mCurMaxName;
     private int                   mCurMaxLevel;
     private int                   mScanProgress;
     private boolean               mScanFinish;
     private List<BluetoothDevice> mBtDevList;
     private List<Integer        > mBtLevelList;
+
+    private static String mBtMacAddr;
+    public static String getMac() { return mBtMacAddr; }
 
     public BtView(Context context, AttributeSet attrs) {
         super(context, attrs);
