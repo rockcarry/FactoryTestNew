@@ -52,29 +52,31 @@
                     android:background="#33ff0000" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/key_test"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="15"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#33ff0000"
-                android:orientation="horizontal"
-                android:gravity="center_vertical" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="26dp"
-                    android:gravity="center"
-                    android:textColor="#ffff00"
-                    android:textSize="@dimen/txt_text_size"
-                    android:text="@string/txt_key_test" />
+                android:layout_weight="17"
+                android:orientation="horizontal" >
                 <LinearLayout
+                    android:id="@+id/key_test"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal" >
+                    android:layout_weight="10"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#33ff0000"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/txt_text_size"
+                        android:text="@string/txt_key_test" />
                     <TextView
                         android:id="@+id/txt_key_home"
                         android:layout_width="match_parent"
@@ -124,54 +126,101 @@
                         android:textSize="@dimen/txt_text_size"
                         android:text="@string/txt_key_volinc" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/mic_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="#33ff0000"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center"
+                        android:textColor="#ffff00"
+                        android:textSize="@dimen/txt_text_size"
+                        android:text="@string/txt_mic_test" />
+                    <com.apical.factorytest.WaveformView
+                        android:id="@+id/wave_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-        <com.apical.factorytest.DeviceView
-            android:id="@+id/device_view"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10"
-            android:background="#33ff0000" />
+            android:orientation="vertical" >
+            <com.apical.factorytest.DeviceView
+                android:id="@+id/device_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="#33ff0000" />
+            <SurfaceView
+                android:id="@+id/camera_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="16" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="30"
+        android:layout_weight="37"
         android:gravity="center"
         android:orientation="horizontal" >
 
         <Button
+            android:id="@+id/btn_cam_test"
+            android:layout_width="180dp"
+            android:layout_height="78dp"
+            android:text="@string/btn_cam_test"
+            android:textSize="@dimen/btn_text_size" />
+
+        <Button
             android:id="@+id/btn_spk_test"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_spk_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_hp_test"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_hp_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_bkl_test"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_bkl_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_led_test"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_led_test"
-            android:textSize="@dimen/btn_text_size" />
+            android:textSize="@dimen/btn_text_size"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_save_gps"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_save_gps"
             android:textSize="@dimen/btn_text_size"
@@ -179,7 +228,7 @@
 
         <Button
             android:id="@+id/btn_save_report"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_save_report"
             android:textSize="@dimen/btn_text_size"
@@ -187,7 +236,7 @@
 
         <Button
             android:id="@+id/btn_exit"
-            android:layout_width="176dp"
+            android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_exit"
             android:textSize="@dimen/btn_text_size" />

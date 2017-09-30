@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">"工厂测试"</string>
+    <string name="btn_cam_test">"摄像头测试"</string>
     <string name="btn_spk_test">"喇叭测试"</string>
     <string name="btn_hp_test">"耳机测试"</string>
     <string name="btn_bkl_test">"背光测试"</string>
@@ -14,6 +15,7 @@
     <string name="txt_key_power">"POWER"</string>
     <string name="txt_key_voldec">"VOL-"</string>
     <string name="txt_key_volinc">"VOL+"</string>
+    <string name="txt_mic_test">"麦克测试:"</string>
     <string name="txt_gps_test">"GPS 测试"</string>
     <string name="txt_wifi_test">"WiFI"</string>
     <string name="txt_bt_test">"蓝牙"</string>
@@ -44,6 +46,7 @@
     <string name="standard2">"wifi标准：信号强度 >= "</string>
     <string name="standard3">"bt  标准：信号强度 >= "</string>
 
+    <string name="cam_test_title">"请检查摄像头是否工作正常，包括前置、后置和 AVIN 摄像头"</string>
     <string name="spk_test_title">"请确认喇叭是否有声音"</string>
     <string name="eph_test_title">"请确认耳机是否有声音（注意左右声道）"</string>
     <string name="bkl_test_title">"请确认屏幕背光亮度是否正常"</string>

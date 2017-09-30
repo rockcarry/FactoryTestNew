@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -20,6 +21,8 @@ import android.os.Message;
 import android.provider.Settings;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -38,11 +41,14 @@ public class mainActivity extends Activity {
     private WifiView     mWifiView;
     private BtView       mBtView;
     private DeviceView   mDevView;
+    private WaveformView mWaveform;
     private TextView     mTxtHome;
     private TextView     mTxtPower;
     private TextView     mTxtVolDec;
     private TextView     mTxtVolInc;
     private View         mKeyTest;
+    private View         mMicTest;
+    private Button       mCamTest;
     private Button       mSpkTest;
     private Button       mEphTest;
     private Button       mBklTest;
@@ -54,13 +60,16 @@ public class mainActivity extends Activity {
     private int          mResultPower;
     private int          mResultVolDec;
     private int          mResultVolInc;
-    private boolean      mKeyPass;
+    private boolean      mCamPass;
     private boolean      mSpkPass;
     private boolean      mEphPass;
     private boolean      mBklPass;
     private boolean      mLedPass;
     private MediaPlayer  mPlayer;
     private AudioManager mAudioMan;
+    private SurfaceView  mPreview;
+    private Camera       mCamera;
+    private int          mCamIdx;
 
     @Override
     public String toString() {
@@ -72,10 +81,11 @@ public class mainActivity extends Activity {
                    + "vol+ : " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultVolInc + "\r\n\r\n"
                    + "Other test (need subjective judgment)\r\n"
                    + "-------------------------------------\r\n";
+        str += "camera test   : " + (mCamPass ? "PASS" : "NG") + "\r\n";
         str += "speaker test  : " + (mSpkPass ? "PASS" : "NG") + "\r\n";
         str += "earphone test : " + (mEphPass ? "PASS" : "NG") + "\r\n";
         str += "backlight test: " + (mBklPass ? "PASS" : "NG") + "\r\n";
-        str += "chargeled test: " + (mLedPass ? "PASS" : "NG") + "\r\n";
+//      str += "chargeled test: " + (mLedPass ? "PASS" : "NG") + "\r\n";
         return str;
     }
 
@@ -83,24 +93,28 @@ public class mainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mGpsView   = (GpsView   )findViewById(R.id.gps_view       );
-        mWifiView  = (WifiView  )findViewById(R.id.wifi_view      );
-        mBtView    = (BtView    )findViewById(R.id.bt_view        );
-        mDevView   = (DeviceView)findViewById(R.id.device_view    );
-        mTxtHome   = (TextView  )findViewById(R.id.txt_key_home   );
-        mTxtPower  = (TextView  )findViewById(R.id.txt_key_power  );
-        mTxtVolDec = (TextView  )findViewById(R.id.txt_key_voldec );
-        mTxtVolInc = (TextView  )findViewById(R.id.txt_key_volinc );
-        mKeyTest   = (View      )findViewById(R.id.key_test       );
-        mSpkTest   = (Button    )findViewById(R.id.btn_spk_test   );
-        mEphTest   = (Button    )findViewById(R.id.btn_hp_test    );
-        mBklTest   = (Button    )findViewById(R.id.btn_bkl_test   );
-        mLedTest   = (Button    )findViewById(R.id.btn_led_test   );
-        mSaveGps   = (Button    )findViewById(R.id.btn_save_gps   );
-        mSaveReport= (Button    )findViewById(R.id.btn_save_report);
-        mBtnExit   = (Button    )findViewById(R.id.btn_exit       );
+        mGpsView   = (GpsView     )findViewById(R.id.gps_view       );
+        mWifiView  = (WifiView    )findViewById(R.id.wifi_view      );
+        mBtView    = (BtView      )findViewById(R.id.bt_view        );
+        mDevView   = (DeviceView  )findViewById(R.id.device_view    );
+        mWaveform  = (WaveformView)findViewById(R.id.wave_view      );
+        mTxtHome   = (TextView    )findViewById(R.id.txt_key_home   );
+        mTxtPower  = (TextView    )findViewById(R.id.txt_key_power  );
+        mTxtVolDec = (TextView    )findViewById(R.id.txt_key_voldec );
+        mTxtVolInc = (TextView    )findViewById(R.id.txt_key_volinc );
+        mKeyTest   = (View        )findViewById(R.id.key_test       );
+        mMicTest   = (View        )findViewById(R.id.mic_test       );
+        mCamTest   = (Button      )findViewById(R.id.btn_cam_test   );
+        mSpkTest   = (Button      )findViewById(R.id.btn_spk_test   );
+        mEphTest   = (Button      )findViewById(R.id.btn_hp_test    );
+        mBklTest   = (Button      )findViewById(R.id.btn_bkl_test   );
+        mLedTest   = (Button      )findViewById(R.id.btn_led_test   );
+        mSaveGps   = (Button      )findViewById(R.id.btn_save_gps   );
+        mSaveReport= (Button      )findViewById(R.id.btn_save_report);
+        mBtnExit   = (Button      )findViewById(R.id.btn_exit       );
 
         mBtView    .setOnClickListener(mOnClickListener);
+        mCamTest   .setOnClickListener(mOnClickListener);
         mSpkTest   .setOnClickListener(mOnClickListener);
         mEphTest   .setOnClickListener(mOnClickListener);
         mBklTest   .setOnClickListener(mOnClickListener);
@@ -121,6 +135,11 @@ public class mainActivity extends Activity {
 
         // start test view refresh
         mHandler.sendEmptyMessageDelayed(MSG_REFREH, 1000);
+
+        try { mCamera  = Camera.open(1); } catch (Exception e) { e.printStackTrace(); }
+        mPreview = (SurfaceView)findViewById(R.id.camera_view);
+        mPreview.getHolder().addCallback(mPreviewSurfaceHolderCallback);
+        mPreview.setOnClickListener(mOnClickListener);
     }
 
     @Override
@@ -134,7 +153,13 @@ public class mainActivity extends Activity {
         mWifiView.onDestroy();
         mBtView  .onDestroy();
         mDevView .onDestroy();
+        mWaveform.onDestroy();
         mPlayer.release();
+
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.release();
+        }
     }
 
     @Override
@@ -150,6 +175,7 @@ public class mainActivity extends Activity {
         mWifiView.onResume();
         mBtView  .onResume();
         mDevView .onResume();
+        mWaveform.onResume();
 
         // enter hardware button test mode
         if (mResultHome != 3 || mResultPower != 3 || mResultVolDec != 3 || mResultVolInc != 3) {
@@ -170,9 +196,38 @@ public class mainActivity extends Activity {
         mWifiView.onPause();
         mBtView  .onPause();
         mDevView .onPause();
+        mWaveform.onPause();
 
         // disable hardware button test mode
         sendBroadcast(new Intent("com.apical.testhwbutton.disable"));
+    }
+
+    private void doCamTest() {
+        View view = getLayoutInflater().inflate(R.layout.dialog1, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
+        builder.setTitle(R.string.cam_test_title);
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mCamTest.setBackgroundColor(Color.RED);
+                mCamTest.setTextColor(Color.YELLOW);
+                mCamPass = false;
+                dialog.dismiss();
+            }
+        });
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mCamTest.setBackgroundColor(Color.GREEN);
+                mCamTest.setTextColor(Color.BLACK);
+                mCamPass = true;
+                dialog.dismiss();
+            }
+        });
     }
 
     private void doSpkTest() {
@@ -356,13 +411,13 @@ public class mainActivity extends Activity {
     private String genTestReport() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String title = "+------------------------------+\r\n"
-                     + " test report for tnd540 device  \r\n"
-                     + "+------------------------------+\r\n"
+        String title = "+-------------------------------+\r\n"
+                     + " test report for tndt80b device  \r\n"
+                     + "+-------------------------------+\r\n"
 //                   + "report generate time: " + df.format(date) + "\r\n"
 //                   + "device serial number: " + Build.SERIAL + "\r\n"
                      + "\r\n";
-        String report = title + mGpsView + mWifiView + mBtView + mDevView + this.toString() + "\r\n\r\n\r\n\r\n\r\n";
+        String report = title + mGpsView + mWifiView + mBtView + mDevView + mWaveform + this.toString() + "\r\n\r\n\r\n\r\n\r\n";
         return report;
     }
 
@@ -391,6 +446,9 @@ public class mainActivity extends Activity {
             case R.id.bt_view:
                 mBtView.rescan();
                 break;
+            case R.id.btn_cam_test:
+                doCamTest();
+                break;
             case R.id.btn_spk_test:
                 doSpkTest();
                 break;
@@ -411,6 +469,22 @@ public class mainActivity extends Activity {
                 break;
             case R.id.btn_exit:
                 finish();
+                break;
+            case R.id.camera_view:
+                if (mCamera != null) {
+                    mCamera.stopPreview();
+                    mCamera.release();
+                }
+                try {
+                    mCamIdx++; mCamIdx %= 3;
+                    switch (mCamIdx) {
+                    case 0: setAvinSwitchType(false); mCamera  = Camera.open(1); break;
+                    case 1: setAvinSwitchType(false); mCamera  = Camera.open(0); break;
+                    case 2: setAvinSwitchType(true ); mCamera  = Camera.open(0); break;
+                    }
+                    mCamera.setPreviewDisplay(mPreview.getHolder());
+                    mCamera.startPreview();
+                } catch (Exception e) { e.printStackTrace(); }
                 break;
             }
         }
@@ -506,6 +580,9 @@ public class mainActivity extends Activity {
                     mGpsView .invalidate();
                     mWifiView.invalidate();
                     mBtView  .invalidate();
+                    if (mWaveform.isPass()) {
+                        mMicTest.setBackgroundColor(0x3300ff00);
+                    }
                     mSaveReport.setEnabled(!genTestReport().contains("NG"));
                 }
                 break;
@@ -596,5 +673,49 @@ public class mainActivity extends Activity {
 
         return ret;
     }
+
+    private static void setAvinSwitchType(boolean type) {
+        String  path = "/dev/apical";
+        File    file = new File(path);
+        String  str  = null;
+        boolean flag = false;
+
+        if (!file.exists()) return;
+
+        try {
+            FileOutputStream os = new FileOutputStream(file);
+            String avin = "avin " + (type ? 1 : 0);
+            os.write(avin.getBytes());
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private SurfaceHolder.Callback mPreviewSurfaceHolderCallback = new SurfaceHolder.Callback() {
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+            Log.d(TAG, "surfaceCreated");
+            if (mCamera != null) {
+                try {
+                    mCamera.setPreviewDisplay(mPreview.getHolder());
+                    mCamera.startPreview();
+                } catch (Exception e) { e.printStackTrace(); }
+            }
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            Log.d(TAG, "surfaceDestroyed");
+            if (mCamera != null) {
+                mCamera.stopPreview();
+            }
+        }
+
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
+            Log.d(TAG, "surfaceChanged");
+        }
+    };
 }
 

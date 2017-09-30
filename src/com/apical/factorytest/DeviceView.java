@@ -341,7 +341,7 @@ public class DeviceView extends View {
                 }
 
                 if (present) {
-                    mBatteryStatus = statusString + " "
+                    mBatteryStatus = statusString + " " + acString + " "
                       + String.valueOf(level) + "% "
                       + String.valueOf(temperature/10.0) + "'C";
                 } else {

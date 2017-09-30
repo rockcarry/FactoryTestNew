@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">"FactoryTest"</string>
+    <string name="btn_cam_test">"camera test"</string>
     <string name="btn_spk_test">"speaker test"</string>
     <string name="btn_hp_test">"earphone test"</string>
     <string name="btn_bkl_test">"backlight test"</string>
@@ -14,6 +15,7 @@
     <string name="txt_key_power">"POWER"</string>
     <string name="txt_key_voldec">"VOL-"</string>
     <string name="txt_key_volinc">"VOL+"</string>
+    <string name="txt_mic_test">"mic test:"</string>
     <string name="txt_gps_test">"GPS test"</string>
     <string name="txt_wifi_test">"WiFI"</string>
     <string name="txt_bt_test">"BT"</string>
@@ -45,8 +47,9 @@
     <string name="standard1">"gps : five 45dB，one 43dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for tnd540 v1.0.6"</string>
+    <string name="version">"factorytest for tndt80b v1.0.7"</string>
 
+    <string name="cam_test_title">"please check camera, including front, rear and backup camera."</string>
     <string name="spk_test_title">"please check speaker sound"</string>
     <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
     <string name="bkl_test_title">"please check lcd backlight brightness"</string>
