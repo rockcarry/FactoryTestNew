@@ -15,7 +15,7 @@
     <string name="txt_key_power">"POWER"</string>
     <string name="txt_key_voldec">"VOL-"</string>
     <string name="txt_key_volinc">"VOL+"</string>
-    <string name="txt_mic_test">"麦克测试:"</string>
+    <string name="txt_mic_test">"麦克风测试:"</string>
     <string name="txt_gps_test">"GPS 测试"</string>
     <string name="txt_wifi_test">"WiFI"</string>
     <string name="txt_bt_test">"蓝牙"</string>
@@ -59,5 +59,9 @@
 
     <string name="save_gps_done">"保存 GPS 数据成功！"</string>
     <string name="save_report_done">"保存测试报告成功！"</string>
+
+    <string name="camera_front">"前置摄像头"</string>
+    <string name="camera_back">"后置摄像头"</string>
+    <string name="camera_avin">"AVIN 摄像头"</string>
 </resources>
 

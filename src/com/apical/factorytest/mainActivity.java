@@ -203,13 +203,31 @@ public class mainActivity extends Activity {
     }
 
     private void doCamTest() {
-        View view = getLayoutInflater().inflate(R.layout.dialog1, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog4, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         builder.setTitle(R.string.cam_test_title);
         builder.setView(view);
         builder.setCancelable(false);
         final AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.findViewById(R.id.radio_front).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                selectCamera(0);
+            }
+        });
+        dialog.findViewById(R.id.radio_back).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                selectCamera(1);
+            }
+        });
+        dialog.findViewById(R.id.radio_avin).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                selectCamera(2);
+            }
+        });
         dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
@@ -471,20 +489,8 @@ public class mainActivity extends Activity {
                 finish();
                 break;
             case R.id.camera_view:
-                if (mCamera != null) {
-                    mCamera.stopPreview();
-                    mCamera.release();
-                }
-                try {
-                    mCamIdx++; mCamIdx %= 3;
-                    switch (mCamIdx) {
-                    case 0: setAvinSwitchType(false); mCamera  = Camera.open(1); break;
-                    case 1: setAvinSwitchType(false); mCamera  = Camera.open(0); break;
-                    case 2: setAvinSwitchType(true ); mCamera  = Camera.open(0); break;
-                    }
-                    mCamera.setPreviewDisplay(mPreview.getHolder());
-                    mCamera.startPreview();
-                } catch (Exception e) { e.printStackTrace(); }
+                mCamIdx++; mCamIdx %= 3;
+                selectCamera(mCamIdx);
                 break;
             }
         }
@@ -690,6 +696,23 @@ public class mainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void selectCamera(int idx) {
+        if (mCamera != null) {
+            mCamera.stopPreview();
+            mCamera.release();
+        }
+        try {
+            switch (idx) {
+            case 0: setAvinSwitchType(false); mCamera  = Camera.open(1); break;
+            case 1: setAvinSwitchType(false); mCamera  = Camera.open(0); break;
+            case 2: setAvinSwitchType(true ); mCamera  = Camera.open(0); break;
+            }
+            mCamera.setPreviewDisplay(mPreview.getHolder());
+            mCamera.startPreview();
+        } catch (Exception e) { e.printStackTrace(); }
+        mCamIdx = idx;
     }
 
     private SurfaceHolder.Callback mPreviewSurfaceHolderCallback = new SurfaceHolder.Callback() {

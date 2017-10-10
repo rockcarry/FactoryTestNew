@@ -65,5 +65,9 @@
 
     <string name="radio_pass">"pass"</string>
     <string name="radio_ng">"ng"</string>
+
+    <string name="camera_front">"front camera"</string>
+    <string name="camera_back">"back camera"</string>
+    <string name="camera_avin">"avin camera"</string>
 </resources>
 
