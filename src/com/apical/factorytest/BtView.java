@@ -29,7 +29,7 @@ public class BtView extends View {
     private List<BluetoothDevice> mBtDevList;
     private List<Integer        > mBtLevelList;
 
-    private static String mBtMacAddr;
+    private static String mBtMacAddr = "";
     public static String getMac() { return mBtMacAddr; }
 
     public BtView(Context context, AttributeSet attrs) {

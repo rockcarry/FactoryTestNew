@@ -39,8 +39,8 @@ public class DeviceView extends View {
     private int            mEarphoneDet;
     private String         mBatteryStatus;
     private boolean        mBatteryResult;
-    private String         mWiFiMac;
-    private String         mBtMac;
+    private String         mWiFiMac = "";
+    private String         mBtMac   = "";
     private float          mX, mY, mZ;
 
     public DeviceView(Context context, AttributeSet attrs) {
