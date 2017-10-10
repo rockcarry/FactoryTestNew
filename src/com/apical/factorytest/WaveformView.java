@@ -39,17 +39,14 @@ public class WaveformView extends View {
     }
 
     public void onResume() {
-        mRecThread = new RecordThread();
-        mRecThread.start();
+        start();
     }
 
     public void onPause() {
-        mRecThread.stopRecord();
-        mRecThread = null;
+        stop();
     }
 
     public void onDestroy() {
-        mRecorder.stop();
         mRecorder.release();
     }
 
@@ -64,6 +61,18 @@ public class WaveformView extends View {
                    + "test result: " + (mPass ? "PASS" : "NG")
                    + "\r\n\r\n";
         return str;
+    }
+
+    private void start() {
+        mRecThread = new RecordThread();
+        mRecThread.start();
+    }
+
+    private void stop() {
+        if (mRecThread != null) {
+            mRecThread.stopRecord();
+            mRecThread = null;
+        }
     }
 
     @Override
@@ -123,6 +132,7 @@ public class WaveformView extends View {
     class RecordThread extends Thread
     {
         private boolean isRecording = false;
+        private int     skipCounter = 0;
 
         @Override
         public void run() {
@@ -137,6 +147,7 @@ public class WaveformView extends View {
                     offset += mRecorder.read(buf, offset, sampnum);
 //                  Log.d(TAG, "read record data offset = " + offset);
                 }
+                if (skipCounter++ < 10) continue;
                 WaveformView.this.setAudioData(buf);
                 WaveformView.this.mHandler.sendEmptyMessage(MSG_REFREH);
             }
