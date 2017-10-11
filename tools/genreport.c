@@ -159,10 +159,8 @@ static int get_test_result(char *file,
     read_data(section, "backlight test" , bkl_res);
     read_data(section, "chargeled test" , led_res);
 
-    section = find_section(buf, "Mic test");
-    read_data(section, "test result" , mic_res);
-
     section = find_section(buf, "Other test");
+    read_data(section, "mic test" , mic_res);
     read_data(section, "camera test" , cam_res);
 
     // ok

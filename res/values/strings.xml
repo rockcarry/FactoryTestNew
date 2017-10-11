@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">"FactoryTest"</string>
+    <string name="btn_mic_test">"mic test"</string>
     <string name="btn_cam_test">"camera test"</string>
     <string name="btn_spk_test">"speaker test"</string>
     <string name="btn_hp_test">"earphone test"</string>
@@ -49,6 +50,7 @@
     <string name="standard3">"bt  : signal level >= "</string>
     <string name="version">"factorytest for tndt80b v1.0.7"</string>
 
+    <string name="mic_test_title">"please check mic, record then playback, then make judgement."</string>
     <string name="cam_test_title">"please check camera, including front, rear and backup camera."</string>
     <string name="spk_test_title">"please check speaker sound"</string>
     <string name="eph_test_title">"please check earphone sound (L/R channel)"</string>
@@ -66,6 +68,8 @@
     <string name="radio_pass">"pass"</string>
     <string name="radio_ng">"ng"</string>
 
+    <string name="record_audio">"start recording"</string>
+    <string name="playback_audio">"playback recording"</string>
     <string name="camera_front">"front camera"</string>
     <string name="camera_back">"back camera"</string>
     <string name="camera_avin">"avin camera"</string>

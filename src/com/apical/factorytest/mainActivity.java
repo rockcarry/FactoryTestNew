@@ -14,6 +14,7 @@ import android.graphics.Typeface;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
@@ -41,13 +43,12 @@ public class mainActivity extends Activity {
     private WifiView     mWifiView;
     private BtView       mBtView;
     private DeviceView   mDevView;
-    private WaveformView mWaveform;
     private TextView     mTxtHome;
     private TextView     mTxtPower;
     private TextView     mTxtVolDec;
     private TextView     mTxtVolInc;
     private View         mKeyTest;
-    private View         mMicTest;
+    private Button       mMicTest;
     private Button       mCamTest;
     private Button       mSpkTest;
     private Button       mEphTest;
@@ -60,6 +61,7 @@ public class mainActivity extends Activity {
     private int          mResultPower;
     private int          mResultVolDec;
     private int          mResultVolInc;
+    private boolean      mMicPass;
     private boolean      mCamPass;
     private boolean      mSpkPass;
     private boolean      mEphPass;
@@ -81,6 +83,7 @@ public class mainActivity extends Activity {
                    + "vol+ : " + (mResultHome == 3 ? "PASS " : "NG   ") + mResultVolInc + "\r\n\r\n"
                    + "Other test (need subjective judgment)\r\n"
                    + "-------------------------------------\r\n";
+        str += "mic test      : " + (mMicPass ? "PASS" : "NG") + "\r\n";
         str += "camera test   : " + (mCamPass ? "PASS" : "NG") + "\r\n";
         str += "speaker test  : " + (mSpkPass ? "PASS" : "NG") + "\r\n";
         str += "earphone test : " + (mEphPass ? "PASS" : "NG") + "\r\n";
@@ -97,13 +100,12 @@ public class mainActivity extends Activity {
         mWifiView  = (WifiView    )findViewById(R.id.wifi_view      );
         mBtView    = (BtView      )findViewById(R.id.bt_view        );
         mDevView   = (DeviceView  )findViewById(R.id.device_view    );
-        mWaveform  = (WaveformView)findViewById(R.id.wave_view      );
         mTxtHome   = (TextView    )findViewById(R.id.txt_key_home   );
         mTxtPower  = (TextView    )findViewById(R.id.txt_key_power  );
         mTxtVolDec = (TextView    )findViewById(R.id.txt_key_voldec );
         mTxtVolInc = (TextView    )findViewById(R.id.txt_key_volinc );
         mKeyTest   = (View        )findViewById(R.id.key_test       );
-        mMicTest   = (View        )findViewById(R.id.mic_test       );
+        mMicTest   = (Button      )findViewById(R.id.btn_mic_test   );
         mCamTest   = (Button      )findViewById(R.id.btn_cam_test   );
         mSpkTest   = (Button      )findViewById(R.id.btn_spk_test   );
         mEphTest   = (Button      )findViewById(R.id.btn_hp_test    );
@@ -114,6 +116,7 @@ public class mainActivity extends Activity {
         mBtnExit   = (Button      )findViewById(R.id.btn_exit       );
 
         mBtView    .setOnClickListener(mOnClickListener);
+        mMicTest   .setOnClickListener(mOnClickListener);
         mCamTest   .setOnClickListener(mOnClickListener);
         mSpkTest   .setOnClickListener(mOnClickListener);
         mEphTest   .setOnClickListener(mOnClickListener);
@@ -153,7 +156,6 @@ public class mainActivity extends Activity {
         mWifiView.onDestroy();
         mBtView  .onDestroy();
         mDevView .onDestroy();
-        mWaveform.onDestroy();
         mPlayer.release();
 
         if (mCamera != null) {
@@ -175,7 +177,6 @@ public class mainActivity extends Activity {
         mWifiView.onResume();
         mBtView  .onResume();
         mDevView .onResume();
-        mWaveform.onResume();
 
         // enter hardware button test mode
         if (mResultHome != 3 || mResultPower != 3 || mResultVolDec != 3 || mResultVolInc != 3) {
@@ -196,10 +197,51 @@ public class mainActivity extends Activity {
         mWifiView.onPause();
         mBtView  .onPause();
         mDevView .onPause();
-        mWaveform.onPause();
 
         // disable hardware button test mode
         sendBroadcast(new Intent("com.apical.testhwbutton.disable"));
+    }
+
+    private void doMicTest() {
+        View view = getLayoutInflater().inflate(R.layout.dialog5, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
+        builder.setTitle(R.string.mic_test_title);
+        builder.setView(view);
+        builder.setCancelable(false);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.findViewById(R.id.radio_record).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                RecordTestStart();
+            }
+        });
+        dialog.findViewById(R.id.radio_playback).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                RecordTestPlayback();
+            }
+        });
+        dialog.findViewById(R.id.radio_ng).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mMicTest.setBackgroundColor(Color.RED);
+                mMicTest.setTextColor(Color.YELLOW);
+                mMicPass = false;
+                dialog.dismiss();
+                RecordTestStop();
+            }
+        });
+        dialog.findViewById(R.id.radio_pass).setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+                mMicTest.setBackgroundColor(Color.GREEN);
+                mMicTest.setTextColor(Color.BLACK);
+                mMicPass = true;
+                dialog.dismiss();
+                RecordTestStop();
+            }
+        });
     }
 
     private void doCamTest() {
@@ -246,6 +288,13 @@ public class mainActivity extends Activity {
                 dialog.dismiss();
             }
         });
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.x -= 62;
+        lp.y += 78;
+        window.setDimAmount(0);
+        window.setAttributes(lp);
     }
 
     private void doSpkTest() {
@@ -435,7 +484,7 @@ public class mainActivity extends Activity {
 //                   + "report generate time: " + df.format(date) + "\r\n"
 //                   + "device serial number: " + Build.SERIAL + "\r\n"
                      + "\r\n";
-        String report = title + mGpsView + mWifiView + mBtView + mDevView + mWaveform + this.toString() + "\r\n\r\n\r\n\r\n\r\n";
+        String report = title + mGpsView + mWifiView + mBtView + mDevView + this.toString() + "\r\n\r\n\r\n\r\n\r\n";
         return report;
     }
 
@@ -463,6 +512,9 @@ public class mainActivity extends Activity {
             switch (v.getId()) {
             case R.id.bt_view:
                 mBtView.rescan();
+                break;
+            case R.id.btn_mic_test:
+                doMicTest();
                 break;
             case R.id.btn_cam_test:
                 doCamTest();
@@ -586,9 +638,6 @@ public class mainActivity extends Activity {
                     mGpsView .invalidate();
                     mWifiView.invalidate();
                     mBtView  .invalidate();
-                    if (mWaveform.isPass()) {
-                        mMicTest.setBackgroundColor(0x3300ff00);
-                    }
                     mSaveReport.setEnabled(!genTestReport().contains("NG"));
                 }
                 break;
@@ -740,5 +789,42 @@ public class mainActivity extends Activity {
             Log.d(TAG, "surfaceChanged");
         }
     };
+
+    private static final String TEST_RECORD_AUDIO_FILE = "/sdcard/factorytest.m4a";
+    private MediaPlayer   mAudioPlayer;
+    private MediaRecorder mAudioRecorder;
+    private void RecordTestStart() {
+        RecordTestStop();
+        mAudioRecorder = new MediaRecorder();
+        mAudioRecorder.setAudioSource (MediaRecorder.AudioSource.MIC);
+        mAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mAudioRecorder.setOutputFile  (TEST_RECORD_AUDIO_FILE);
+        try {
+            mAudioRecorder.prepare();
+            mAudioRecorder.start ();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void RecordTestPlayback() {
+        RecordTestStop();
+        mAudioPlayer = new MediaPlayer();
+        try {
+            mAudioPlayer.setDataSource(TEST_RECORD_AUDIO_FILE);
+            mAudioPlayer.prepare();
+            mAudioPlayer.start();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void RecordTestStop() {
+        if (mAudioPlayer != null) {
+            mAudioPlayer.release();
+            mAudioPlayer = null;
+        }
+        if (mAudioRecorder != null) {
+            mAudioRecorder.release();
+            mAudioRecorder = null;
+        }
+    }
 }
 

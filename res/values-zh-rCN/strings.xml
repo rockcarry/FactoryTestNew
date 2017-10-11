@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">"工厂测试"</string>
+    <string name="btn_mic_test">"麦克风测试"</string>
     <string name="btn_cam_test">"摄像头测试"</string>
     <string name="btn_spk_test">"喇叭测试"</string>
     <string name="btn_hp_test">"耳机测试"</string>
@@ -46,6 +47,7 @@
     <string name="standard2">"wifi标准：信号强度 >= "</string>
     <string name="standard3">"bt  标准：信号强度 >= "</string>
 
+    <string name="mic_test_title">"请检查麦克风是否工作正常，先录音再播放，然后做出判断"</string>
     <string name="cam_test_title">"请检查摄像头是否工作正常，包括前置、后置和 AVIN 摄像头"</string>
     <string name="spk_test_title">"请确认喇叭是否有声音"</string>
     <string name="eph_test_title">"请确认耳机是否有声音（注意左右声道）"</string>
@@ -60,6 +62,8 @@
     <string name="save_gps_done">"保存 GPS 数据成功！"</string>
     <string name="save_report_done">"保存测试报告成功！"</string>
 
+    <string name="record_audio">"开始录音"</string>
+    <string name="playback_audio">"播放录音"</string>
     <string name="camera_front">"前置摄像头"</string>
     <string name="camera_back">"后置摄像头"</string>
     <string name="camera_avin">"AVIN 摄像头"</string>

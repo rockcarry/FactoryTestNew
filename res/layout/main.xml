@@ -126,34 +126,6 @@
                         android:textSize="@dimen/txt_text_size"
                         android:text="@string/txt_key_volinc" />
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/mic_test"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="20"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="#33ff0000"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical" >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:gravity="center"
-                        android:textColor="#ffff00"
-                        android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_mic_test" />
-                    <com.apical.factorytest.WaveformView
-                        android:id="@+id/wave_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -181,6 +153,13 @@
         android:layout_weight="37"
         android:gravity="center"
         android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_mic_test"
+            android:layout_width="180dp"
+            android:layout_height="78dp"
+            android:text="@string/btn_mic_test"
+            android:textSize="@dimen/btn_text_size" />
 
         <Button
             android:id="@+id/btn_cam_test"
