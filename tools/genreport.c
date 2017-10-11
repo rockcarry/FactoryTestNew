@@ -42,7 +42,8 @@ static int get_test_result(char *file,
                 char *bat_status, char *bat_res,
                 char *ddr_size, char *ddr_res, char *flash_size, char *flash_res,
                 char *home_res, char *power_res, char *volinc_res, char *voldec_res,
-                char *spk_res, char *ear_res, char *bkl_res, char *led_res)
+                char *spk_res, char *ear_res, char *bkl_res, char *led_res,
+                char *cam_res, char *mic_res)
 {
     char *buf      = NULL;
     int   len      = 0;
@@ -84,6 +85,8 @@ static int get_test_result(char *file,
     strcpy(ear_res     , "unknown");
     strcpy(bkl_res     , "unknown");
     strcpy(led_res     , "unknown");
+    strcpy(mic_res     , "unknown");
+    strcpy(cam_res     , "unknown");
 
     // open file
     fp = fopen(file, "rb");
@@ -156,6 +159,12 @@ static int get_test_result(char *file,
     read_data(section, "backlight test" , bkl_res);
     read_data(section, "chargeled test" , led_res);
 
+    section = find_section(buf, "Mic test");
+    read_data(section, "test result" , mic_res);
+
+    section = find_section(buf, "Other test");
+    read_data(section, "camera test" , cam_res);
+
     // ok
     ret = 0;
 
@@ -202,10 +211,12 @@ static void traverse_dir(char *path)
     char  ear_res[10]     = "";
     char  bkl_res[10]     = "";
     char  led_res[10]     = "";
+    char  mic_res[10]     = "";
+    char  cam_res[10]     = "";
 
     fp = fopen("testreport.csv", "wb");
     if (!fp) goto done;
-    fprintf(fp, "sn,gps_cn,gps_result,wifi_mac,wifi_highest_signal,wifi_ap,wifi_result,bt_mac,bt_highest_signal,bt_dev,bt_result,extsd,uhost,hpdet,gsensor_value,gsensor_result,bat_status,bat_result,ddr_size,ddr_result,flash_size,flash_result,home,power,vol+,vol-,speaker,earphone,backlight,charge_led\r\n");
+    fprintf(fp, "sn,gps_cn,gps_result,wifi_mac,wifi_highest_signal,wifi_ap,wifi_result,bt_mac,bt_highest_signal,bt_dev,bt_result,extsd,uhost,hpdet,gsensor_value,gsensor_result,bat_status,bat_result,ddr_size,ddr_result,flash_size,flash_result,home,power,vol+,vol-,speaker,earphone,backlight,charge_led,mic,camera\r\n");
 
     strcpy(file, path);
     strcat(file, "\\*");
@@ -240,8 +251,9 @@ static void traverse_dir(char *path)
                     bat_status, bat_res,
                     ddr_size, ddr_res, flash_size, flash_res,
                     home_res, power_res, volinc_res, voldec_res,
-                    spk_res, ear_res, bkl_res, led_res);
-            fprintf(fp, "T54-%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\r\n", sn,
+                    spk_res, ear_res, bkl_res, led_res,
+                    mic_res, cam_res);
+            fprintf(fp, "TNDT80B-%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\"%s\",%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\r\n", sn,
                     gps_cn, gps_res,
                     wifi_mac, wifi_signal, wifi_name, wifi_res,
                     bt_mac, bt_signal, bt_name, bt_res,
@@ -250,7 +262,8 @@ static void traverse_dir(char *path)
                     bat_status, bat_res,
                     ddr_size, ddr_res, flash_size, flash_res,
                     home_res, power_res, volinc_res, voldec_res,
-                    spk_res, ear_res, bkl_res, led_res);
+                    spk_res, ear_res, bkl_res, led_res,
+                    mic_res, cam_res);
             printf("%s %s\r\n", sn, ret == 0 ? "ok" : "ng xxxxx");
         }
 next:
