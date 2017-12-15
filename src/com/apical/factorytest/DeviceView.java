@@ -39,8 +39,6 @@ public class DeviceView extends View {
     private int            mEarphoneDet;
     private String         mBatteryStatus;
     private boolean        mBatteryResult;
-    private String         mWiFiMac = "";
-    private String         mBtMac   = "";
     private float          mX, mY, mZ;
 
     public DeviceView(Context context, AttributeSet attrs) {
@@ -110,17 +108,11 @@ public class DeviceView extends View {
         str += "uuid    : " + (pass ? "PASS  " : "NG    ") + Build.SERIAL + "\r\n";
         */
 
-        pass = getMemorySize() > 512 * 1024 * 1024;
+        pass = getMemorySize() >= 512 * 1024 * 1024;
         str += "ddr     : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getMemorySize() / 1024 / 1024f) + " MB\r\n";
 
-        pass = getFlashSize() > 8L * 1024 * 1024 * 1024;
+        pass = getFlashSize() > 4L * 1024 * 1024 * 1024;
         str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\r\n";
-
-        pass = mWiFiMac.startsWith("90:f4:c1:1a") || mWiFiMac.startsWith("90:f4:c1:1b");
-        str += "wifimac : " + (pass ? "PASS  " : "NG    ") + "\r\n";
-
-        pass = mBtMac.startsWith("90:f4:c1:1a") || mBtMac.startsWith("90:f4:c1:1b");
-        str += "btmac   : " + (pass ? "PASS  " : "NG    ") + "\r\n\r\n";
 
         return str;
     }
@@ -237,7 +229,7 @@ public class DeviceView extends View {
         */
 
         String ddrtest = mContext.getString(R.string.ddr_test) + " " + String.format("%.1f", getMemorySize() / 1024 / 1024f) + " MB";
-        if (getMemorySize() > 512 * 1024 * 1024) {
+        if (getMemorySize() >= 512 * 1024 * 1024) {
             paint.setColor(Color.rgb(0, 255, 0));
         } else {
             paint.setColor(Color.rgb(255, 0, 0));
@@ -246,7 +238,7 @@ public class DeviceView extends View {
         canvas.drawText(ddrtest, 2, 25 + 25 * 6, paint);
 
         String flashtest = mContext.getString(R.string.flash_test) + " " + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB";
-        if (getFlashSize() > 8L * 1024 * 1024 * 1024) {
+        if (getFlashSize() > 4L * 1024 * 1024 * 1024) {
             paint.setColor(Color.rgb(0, 255, 0));
         } else {
             paint.setColor(Color.rgb(255, 0, 0));
@@ -254,39 +246,12 @@ public class DeviceView extends View {
         }
         canvas.drawText(flashtest, 2, 25 + 25 * 7, paint);
 
-        mWiFiMac = WifiView.getMac();
-        mBtMac   = BtView  .getMac();
-        if (mWiFiMac == null) mWiFiMac = "";
-        if (mBtMac   == null) mBtMac   = "";
-        mWiFiMac = mWiFiMac.toLowerCase();
-        mBtMac   = mBtMac  .toLowerCase();
-        boolean wifimacpass = mWiFiMac.startsWith("90:f4:c1:1a") || mWiFiMac.startsWith("90:f4:c1:1b");
-        boolean btmacpass   = mBtMac  .startsWith("90:f4:c1:1a") || mBtMac  .startsWith("90:f4:c1:1b");
-        String wifimactest  = mContext.getString(R.string.wifimac_test) + " " + (wifimacpass ? "PASS  " : "NG   ");
-        if (wifimacpass) {
-            paint.setColor(Color.rgb(0, 255, 0));
-        } else {
-            paint.setColor(Color.rgb(255, 0, 0));
-            result = false;
-        }
-        canvas.drawText(wifimactest, 2, 25 + 25 * 8, paint);
-
-        String btmactest = mContext.getString(R.string.btmac_test) + " " + (btmacpass ? "PASS  " : "NG   ");
-        if (btmacpass) {
-            paint.setColor(Color.rgb(0, 255, 0));
-        } else {
-            paint.setColor(Color.rgb(255, 0, 0));
-            result = false;
-        }
-        canvas.drawText(btmactest, 2, 25 + 25 * 9, paint);
-
         paint.setColor(Color.rgb(255, 255, 0));
         paint.setTextSize(16);
         canvas.drawText(mContext.getString(R.string.test_standard), 2, 25 + 25 * 11, paint);
         paint.setTextSize(15);
         canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 12, paint);
         canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 13, paint);
-        canvas.drawText(mContext.getString(R.string.standard3) + BtView  .TEST_PASS_STD, 2, 25 + 25 * 14, paint);
         canvas.drawText(mContext.getString(R.string.version), 2, 25 + 25 * 15, paint);
 
         if (result) setBackgroundColor(0x3300ff00);

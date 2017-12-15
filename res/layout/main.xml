@@ -40,24 +40,14 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
                     android:background="#33ff0000" />
-                <com.apical.factorytest.BtView
-                    android:id="@+id/bt_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="10"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="#33ff0000" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="17"
+                android:layout_weight="16"
                 android:orientation="horizontal" >
                 <LinearLayout
-                    android:id="@+id/key_test"
+                    android:id="@+id/fm_test"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="10"
@@ -65,7 +55,6 @@
                     android:layout_marginRight="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
-                    android:background="#33ff0000"
                     android:orientation="horizontal"
                     android:gravity="center_vertical" >
                     <TextView
@@ -76,55 +65,52 @@
                         android:gravity="center"
                         android:textColor="#ffff00"
                         android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_key_test" />
-                    <TextView
-                        android:id="@+id/txt_key_home"
+                        android:text="@string/txt_fm_test" />
+                    <RadioGroup
                         android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:gravity="center"
-                        android:background="#ff0000"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_key_home" />
-                    <TextView
-                        android:id="@+id/txt_key_power"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:gravity="center"
-                        android:background="#ff0000"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_key_power" />
-                    <TextView
-                        android:id="@+id/txt_key_voldec"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:gravity="center"
-                        android:background="#ff0000"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_key_voldec" />
-                    <TextView
-                        android:id="@+id/txt_key_volinc"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:gravity="center"
-                        android:background="#ff0000"
-                        android:textColor="#000000"
-                        android:textSize="@dimen/txt_text_size"
-                        android:text="@string/txt_key_volinc" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+                        <RadioButton
+                            android:id="@+id/btn_fm_88mhz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:textSize="@dimen/txt_text_size"
+                            android:text="@string/btn_fm_88mhz" />
+                        <RadioButton
+                            android:id="@+id/btn_fm_90mhz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:textSize="@dimen/txt_text_size"
+                            android:text="@string/btn_fm_90mhz" />
+                        <RadioButton
+                            android:id="@+id/btn_fm_92mhz"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:textSize="@dimen/txt_text_size"
+                            android:text="@string/btn_fm_92mhz" />
+                        <RadioButton
+                            android:id="@+id/btn_fm_off"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:textSize="@dimen/txt_text_size"
+                            android:text="@string/btn_fm_off" />
+                    </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -139,11 +125,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="10"
                 android:background="#33ff0000" />
-            <SurfaceView
-                android:id="@+id/camera_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="16" />
         </LinearLayout>
     </LinearLayout>
 
@@ -159,13 +140,6 @@
             android:layout_width="180dp"
             android:layout_height="78dp"
             android:text="@string/btn_mic_test"
-            android:textSize="@dimen/btn_text_size" />
-
-        <Button
-            android:id="@+id/btn_cam_test"
-            android:layout_width="180dp"
-            android:layout_height="78dp"
-            android:text="@string/btn_cam_test"
             android:textSize="@dimen/btn_text_size" />
 
         <Button
@@ -188,14 +162,6 @@
             android:layout_height="78dp"
             android:text="@string/btn_bkl_test"
             android:textSize="@dimen/btn_text_size" />
-
-        <Button
-            android:id="@+id/btn_led_test"
-            android:layout_width="180dp"
-            android:layout_height="78dp"
-            android:text="@string/btn_led_test"
-            android:textSize="@dimen/btn_text_size"
-            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_save_gps"

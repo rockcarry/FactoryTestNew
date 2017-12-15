@@ -60,13 +60,10 @@ public class GpsView extends View {
             str += " " + mSnrList.get(i);
         }
         str += "\r\n";
-        if (  mSnrList.size() >= 6
+        if (  mSnrList.size() >= 3
            && mSnrList.get(0) >= 45
            && mSnrList.get(1) >= 45
-           && mSnrList.get(2) >= 45
-           && mSnrList.get(3) >= 45
-           && mSnrList.get(4) >= 45
-           && mSnrList.get(5) >= 43 ) {
+           && mSnrList.get(2) >= 43 ) {
             pass = true;
         }
         str += "test result: " + (pass ? "PASS" : "NG");
@@ -148,20 +145,15 @@ public class GpsView extends View {
         }
 
         int pass = 0;
-        if (  mSnrList.size() >= 6
+        if (  mSnrList.size() >= 3
            && mSnrList.get(0) >= 45
            && mSnrList.get(1) >= 45
-           && mSnrList.get(2) >= 45
-           && mSnrList.get(3) >= 45
-           && mSnrList.get(4) >= 45
-           && mSnrList.get(5) >= 43) {
+           && mSnrList.get(2) >= 43) {
              pass = 2;
         } else if (
-              mSnrList.size() >= 4
+              mSnrList.size() >= 2
            && mSnrList.get(0) >= 45
-           && mSnrList.get(1) >= 45
-           && mSnrList.get(2) >= 42
-           && mSnrList.get(3) >= 42) {
+           && mSnrList.get(1) >= 42) {
              pass = 1;
         }
 

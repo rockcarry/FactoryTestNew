@@ -45,10 +45,10 @@
     <string name="eph_eject">"please eject earphone"</string>
 
     <string name="test_standard">"Test standard (gps simulator)"</string>
-    <string name="standard1">"gps : five 45dB，one 43dB"</string>
+    <string name="standard1">"gps : two 45dB，one 43dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for tndt80b v1.0.7"</string>
+    <string name="version">"factorytest for a33-213 v1.0.7"</string>
 
     <string name="mic_test_title">"please check mic, record then playback, then make judgement."</string>
     <string name="cam_test_title">"please check camera, including front, rear and backup camera."</string>
@@ -73,5 +73,12 @@
     <string name="camera_front">"front camera"</string>
     <string name="camera_back">"back camera"</string>
     <string name="camera_avin">"avin camera"</string>
+
+    <string name="txt_fm_test">"fm test"</string>
+    <string name="btn_fm_88mhz">"88Mhz"</string>
+    <string name="btn_fm_90mhz">"90Mhz"</string>
+    <string name="btn_fm_92mhz">"92Mhz"</string>
+    <string name="btn_fm_off">"off"</string>
+
 </resources>
 
