@@ -113,7 +113,7 @@ public class DeviceView extends View {
         pass = getMemorySize() > 512 * 1024 * 1024;
         str += "ddr     : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getMemorySize() / 1024 / 1024f) + " MB\r\n";
 
-        pass = getFlashSize() > 8 * 1024 * 1024 * 1024;
+        pass = getFlashSize() > 8L * 1024 * 1024 * 1024;
         str += "flash   : " + (pass ? "PASS  " : "NG    ") + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB\r\n";
 
         pass = mWiFiMac.startsWith("90:f4:c1:1a") || mWiFiMac.startsWith("90:f4:c1:1b");
@@ -246,7 +246,7 @@ public class DeviceView extends View {
         canvas.drawText(ddrtest, 2, 25 + 25 * 6, paint);
 
         String flashtest = mContext.getString(R.string.flash_test) + " " + String.format("%.1f", getFlashSize() / 1024 / 1024 / 1024f) + " GB";
-        if (getFlashSize() > 8 * 1024 * 1024 * 1024) {
+        if (getFlashSize() > 8L * 1024 * 1024 * 1024) {
             paint.setColor(Color.rgb(0, 255, 0));
         } else {
             paint.setColor(Color.rgb(255, 0, 0));
