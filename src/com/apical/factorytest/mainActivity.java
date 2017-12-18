@@ -223,7 +223,7 @@ public class mainActivity extends Activity {
 
     private void doSpkTest() {
         // set default volume
-        int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2;
+        int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mAudioMan.setStreamVolume(AudioManager.STREAM_MUSIC, defvol, 0);
 
         // play music
@@ -261,7 +261,7 @@ public class mainActivity extends Activity {
 
     private void doEphTest() {
         // set default volume
-        int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 2;
+        int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mAudioMan.setStreamVolume(AudioManager.STREAM_MUSIC, defvol, 0);
 
         // play music
@@ -541,6 +541,11 @@ public class mainActivity extends Activity {
 
     private void RecordTestPlayback() {
         RecordTestStop();
+
+        // set default volume
+        int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mAudioMan.setStreamVolume(AudioManager.STREAM_MUSIC, defvol, 0);
+
         mAudioPlayer = new MediaPlayer();
         try {
             mAudioPlayer.setDataSource(TEST_RECORD_AUDIO_FILE);
