@@ -532,6 +532,8 @@ public class mainActivity extends Activity {
         mAudioRecorder.setAudioSource (MediaRecorder.AudioSource.MIC);
         mAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mAudioRecorder.setAudioSamplingRate(44100);
+        mAudioRecorder.setAudioEncodingBitRate(128000);
         mAudioRecorder.setOutputFile  (TEST_RECORD_AUDIO_FILE);
         try {
             mAudioRecorder.prepare();
@@ -562,6 +564,9 @@ public class mainActivity extends Activity {
         if (mAudioRecorder != null) {
             mAudioRecorder.release();
             mAudioRecorder = null;
+        }
+        if (mPlayer.isPlaying()) {
+            mPlayer.pause();
         }
     }
 
