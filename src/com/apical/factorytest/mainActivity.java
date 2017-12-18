@@ -572,6 +572,18 @@ public class mainActivity extends Activity {
         Intent intent = new Intent("android.fm.action.set_fmtx_state");
         intent.putExtras(bundle);
         sendBroadcast(intent);
+        if (freq == 0) {
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+            }
+        } else {
+            if (!mPlayer.isPlaying()) {
+                // set default volume
+                int defvol = mAudioMan.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                mAudioMan.setStreamVolume(AudioManager.STREAM_MUSIC, defvol, 0);
+                mPlayer.start();
+            }
+        }
     }
 }
 
