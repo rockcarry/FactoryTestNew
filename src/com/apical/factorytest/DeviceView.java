@@ -36,7 +36,6 @@ public class DeviceView extends View {
     private int            mExtSdDet;
     private int            mUsbOtgDet;
     private int            mUHostDet;
-    private int            mEarphoneDet;
     private String         mBatteryStatus;
     private boolean        mBatteryResult;
     private float          mX, mY, mZ;
@@ -93,9 +92,6 @@ public class DeviceView extends View {
 */
         pass = mUHostDet   == 3;
         str += "uhost   : " + (pass ? "PASS  " : "NG    ") + mUHostDet    + "\r\n";
-
-        pass = mEarphoneDet == 3;
-        str += "hpdet   : " + (pass ? "PASS  " : "NG    ") + mEarphoneDet + "\r\n";
 
         pass = mX != Float.MIN_VALUE || mY != Float.MIN_VALUE || mZ != Float.MIN_VALUE;
         str += "gsensor : " + (pass ? "PASS  " : "NG    ") + String.format("%2.1f, %2.1f, %2.1f", mX, mY, mZ) + "\r\n";
@@ -182,21 +178,6 @@ public class DeviceView extends View {
         }
         canvas.drawText(uhosttest, 2, 25 + 25 * 2, paint);
 
-        String ephtest = mContext.getString(R.string.ephdet_test);
-        if (mEarphoneDet == 3) {
-            paint.setColor(Color.rgb(0, 255, 0));
-            ephtest += " " + mContext.getString(R.string.test_pass);
-        } else if (mEarphoneDet == 1) {
-            paint.setColor(Color.rgb(255, 255, 0));
-            ephtest += " " + mContext.getString(R.string.eph_eject);
-            result = false;
-        } else {
-            paint.setColor(Color.rgb(255, 0, 0));
-            ephtest += " " + mContext.getString(R.string.eph_insert);
-            result = false;
-        }
-        canvas.drawText(ephtest, 2, 25 + 25 * 3, paint);
-
         String gsensortest = mContext.getString(R.string.gsensor_test);
         if (mX == Float.MIN_VALUE && mY == Float.MIN_VALUE && mZ == Float.MIN_VALUE) {
             paint.setColor(Color.rgb(255, 0, 0));
@@ -248,11 +229,11 @@ public class DeviceView extends View {
 
         paint.setColor(Color.rgb(255, 255, 0));
         paint.setTextSize(16);
-        canvas.drawText(mContext.getString(R.string.test_standard), 2, 25 + 25 * 11, paint);
+        canvas.drawText(mContext.getString(R.string.test_standard), 2, 25 + 25 * 10, paint);
         paint.setTextSize(15);
-        canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 12, paint);
-        canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 13, paint);
-        canvas.drawText(mContext.getString(R.string.version), 2, 25 + 25 * 15, paint);
+        canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 11, paint);
+        canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 12, paint);
+        canvas.drawText(mContext.getString(R.string.version), 2, 25 + 25 * 13, paint);
 
         if (result) setBackgroundColor(0x3300ff00);
     }
@@ -322,12 +303,6 @@ public class DeviceView extends View {
                     mUsbOtgDet |= (1 << 0);
                 } else {
                     mUsbOtgDet |= (1 << 1);
-                }
-            } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
-                if (intent.getIntExtra("state", 0) == 1) {
-                    mEarphoneDet |= (1 << 0);
-                } else {
-                    mEarphoneDet |= (1 << 1);
                 }
             }
             invalidate();
