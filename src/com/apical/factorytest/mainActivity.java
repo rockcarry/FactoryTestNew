@@ -353,7 +353,7 @@ public class mainActivity extends Activity {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String title = "+-------------------------------+\r\n"
-                     + " test report for a33-213 device  \r\n"
+                     + " test report for 17303 device    \r\n"
                      + "+-------------------------------+\r\n"
 //                   + "report generate time: " + df.format(date) + "\r\n"
 //                   + "device serial number: " + Build.SERIAL + "\r\n"

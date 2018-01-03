@@ -48,7 +48,7 @@
     <string name="standard1">"gps : two 45dB，one 43dB"</string>
     <string name="standard2">"wifi: signal level >= "</string>
     <string name="standard3">"bt  : signal level >= "</string>
-    <string name="version">"factorytest for a33-213 v1.0.7"</string>
+    <string name="version">"factorytest for 17303 v1.0.7"</string>
 
     <string name="mic_test_title">"please check mic, record then playback, then make judgement."</string>
     <string name="cam_test_title">"please check camera, including front, rear and backup camera."</string>
