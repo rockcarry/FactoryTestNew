@@ -91,8 +91,11 @@ public class DeviceView extends View {
         pass = mUsbOtgDet   == 3;
         str += "usbotg  : " + (pass ? "PASS  " : "NG    ") + mUsbOtgDet   + "\r\n";
 */
+
+/*
         pass = mUHostDet   == 3;
         str += "uhost   : " + (pass ? "PASS  " : "NG    ") + mUHostDet    + "\r\n";
+*/
 
         pass = mEarphoneDet == 3;
         str += "hpdet   : " + (pass ? "PASS  " : "NG    ") + mEarphoneDet + "\r\n";
@@ -167,6 +170,8 @@ public class DeviceView extends View {
         }
         canvas.drawText(otgtest, 2, 25 + 25 * 2, paint);
 */
+
+/*
         String uhosttest = mContext.getString(R.string.uhost_test);
         if (mUHostDet == 3) {
             paint.setColor(Color.rgb(0, 255, 0));
@@ -181,6 +186,7 @@ public class DeviceView extends View {
             result = false;
         }
         canvas.drawText(uhosttest, 2, 25 + 25 * 2, paint);
+*/
 
         String ephtest = mContext.getString(R.string.ephdet_test);
         if (mEarphoneDet == 3) {
@@ -195,7 +201,7 @@ public class DeviceView extends View {
             ephtest += " " + mContext.getString(R.string.eph_insert);
             result = false;
         }
-        canvas.drawText(ephtest, 2, 25 + 25 * 3, paint);
+        canvas.drawText(ephtest, 2, 25 + 25 * 2, paint);
 
         String gsensortest = mContext.getString(R.string.gsensor_test);
         if (mX == Float.MIN_VALUE && mY == Float.MIN_VALUE && mZ == Float.MIN_VALUE) {
