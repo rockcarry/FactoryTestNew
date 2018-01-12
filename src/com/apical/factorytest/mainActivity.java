@@ -166,6 +166,8 @@ public class mainActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
+        setFmTxFreq(0); // close fmtx
+
         hideSystemUI(false);
 
         Settings.System.putInt(getContentResolver(), Settings.System.SHOW_TOUCHES    , 0);
