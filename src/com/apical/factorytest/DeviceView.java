@@ -287,7 +287,7 @@ public class DeviceView extends View {
         canvas.drawText(mContext.getString(R.string.standard1), 2, 25 + 25 * 12, paint);
         canvas.drawText(mContext.getString(R.string.standard2) + WifiView.TEST_PASS_STD, 2, 25 + 25 * 13, paint);
         canvas.drawText(mContext.getString(R.string.standard3) + BtView  .TEST_PASS_STD, 2, 25 + 25 * 14, paint);
-        canvas.drawText(mContext.getString(R.string.version), 2, 25 + 25 * 15, paint);
+        canvas.drawText(mContext.getString(R.string.version) + " " + Build.SERIAL, 2, 25 + 25 * 15, paint);
 
         if (result) setBackgroundColor(0x3300ff00);
     }

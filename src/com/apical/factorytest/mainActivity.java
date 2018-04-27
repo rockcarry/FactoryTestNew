@@ -162,6 +162,7 @@ public class mainActivity extends Activity {
             mCamera.stopPreview();
             mCamera.release();
         }
+        setAvinSwitchType(false);
     }
 
     @Override
